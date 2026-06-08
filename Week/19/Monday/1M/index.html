@@ -10,10 +10,25 @@ html,body{height:100%;overflow:hidden}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
 .slide{display:none;width:1265px;height:536px;padding:5vmin;overflow-y:auto}
 .slide.active{display:flex;flex-direction:column;justify-content:center}
-h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vmin}
+
+/* heading */
+.hdr{font-size:clamp(14px, 2vw, 22px);color:#333;font-weight:600;margin-bottom:2vmin}
+
+/* quiz */
 .q{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;margin-bottom:3vmin}
 .blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
 .blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(24px, 3.2vw, 40px)}
+.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
+.tbl-wrap th{background:#e8e8e8;font-weight:600}
+
+/* text */
+.tx{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;max-width:100%}
+
+/* buttons */
 .btns{display:flex;gap:2vmin;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(18px, 2.5vw, 30px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:auto;font-weight:600}
@@ -27,11 +42,13 @@ h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vm
 <body>
 
 <div class="slide active">
-<h2>Q1/3</h2>
-<div class="q">▸ IDIOMS — An Unforgettable Trip<br><br>A <span class="blank" data-answer="once-in-a-lifetime">____</span> experience (very rare / special)<br>Go <span class="blank" data-answer="off the beaten track">____</span> (places tourists don't visit)<br>Travel <span class="blank" data-answer="broadens the mind">____</span> (becomes more open-minded)<br>A <span class="blank" data-answer="home away from home">____</span> (feels as comfortable as home)<br>Once in a <span class="blank" data-answer="blue moon">____</span> (rare opportunity)</div>
-<div class="btns">
-<button class="btn btn-reveal" onclick="reveal(0)">▶ Reveal Answer</button>
-</div>
+<div class="hdr">Idioms — An Unforgettable Trip</div>
+<div class="tbl-wrap"><table><thead><tr><th>Idiom</th><th>Meaning</th></tr></thead><tbody><tr><td>once-in-a-lifetime</td><td>A very rare / special experience</td></tr>
+<tr><td>off the beaten track</td><td>Places tourists don't usually visit</td></tr>
+<tr><td>broadens the mind</td><td>Makes you more open-minded</td></tr>
+<tr><td>home away from home</td><td>A place you feel as comfortable as home</td></tr>
+<tr><td>once in a blue moon</td><td>Very rarely</td></tr></tbody></table></div>
+
 <div class="nav">
 <button class="btn btn-nav" disabled>← Prev</button>
 <button class="btn btn-nav" onclick="go(1)">Next →</button>
@@ -39,11 +56,10 @@ h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vm
 </div>
 </div>
 <div class="slide">
-<h2>Q2/3</h2>
-<div class="q">▸ COLLOCATIONS — High Vocabulary<br><br><span class="blank" data-answer="Breathtaking">____</span> scenery (beautiful natural views)<br><span class="blank" data-answer="Embark">____</span> on a journey (start an exciting trip)<br><span class="blank" data-answer="Immerse">____</span> yourself in the culture (fully experience)<br>Rich cultural <span class="blank" data-answer="heritage">____</span> (deep history &amp; traditions)<br><span class="blank" data-answer="Awe-inspiring">____</span> views (leave you amazed)</div>
-<div class="btns">
-<button class="btn btn-reveal" onclick="reveal(1)">▶ Reveal Answer</button>
-</div>
+<div class="hdr">Collocations 1 — Travel Vocab</div>
+<div class="q"><span class="blank" data-answer="Breathtaking">____</span> scenery — extremely beautiful natural views.<br><span class="blank" data-answer="Embark">____</span> on a journey — to start an exciting trip.<br><span class="blank" data-answer="Immerse">____</span> yourself in the culture — to fully experience local life.<br>Rich cultural <span class="blank" data-answer="heritage">____</span> — deep history &amp; traditions.<br><span class="blank" data-answer="Awe-inspiring">____</span> views — so beautiful they leave you amazed.</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(1)">▶ Reveal Answer</button></div>
+
 <div class="nav">
 <button class="btn btn-nav" onclick="go(0)">← Prev</button>
 <button class="btn btn-nav" onclick="go(2)">Next →</button>
@@ -51,11 +67,10 @@ h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vm
 </div>
 </div>
 <div class="slide">
-<h2>Q3/3</h2>
-<div class="q">▸ MORE COLLOCATIONS<br><br><span class="blank" data-answer="Wanderlust">____</span> (strong desire to travel)<br>Create <span class="blank" data-answer="lasting memories">____</span> (stay with you forever)<br><span class="blank" data-answer="Off-peak">____</span> season (less crowded / cheaper)<br>A <span class="blank" data-answer="bustling">____</span> street (very busy with people)<br>An <span class="blank" data-answer="unforgettable">____</span> experience (you will never forget)</div>
-<div class="btns">
-<button class="btn btn-reveal" onclick="reveal(2)">▶ Reveal Answer</button>
-</div>
+<div class="hdr">Collocations 2 — Travel Vocab</div>
+<div class="q"><span class="blank" data-answer="Wanderlust">____</span> — a strong desire to travel.<br>Create <span class="blank" data-answer="lasting memories">____</span> — experiences that stay with you forever.<br><span class="blank" data-answer="Off-peak">____</span> season — less crowded / cheaper to travel.<br>A <span class="blank" data-answer="bustling">____</span> street — very busy with people.<br>An <span class="blank" data-answer="unforgettable">____</span> experience — you will never forget.</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(2)">▶ Reveal Answer</button></div>
+
 <div class="nav">
 <button class="btn btn-nav" onclick="go(1)">← Prev</button>
 <button class="btn btn-nav" disabled>Next →</button>
@@ -64,10 +79,10 @@ h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vm
 </div>
 
 <script>
-const slides=document.querySelectorAll('.slide');
-let current=0;
-function go(n){slides[current].classList.remove('active');current=n;slides[current].classList.add('active')}
-function reveal(n){slides[n].querySelectorAll('.blank').forEach(el=>{el.textContent=el.dataset.answer;el.classList.add('revealed')})}
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
+function reveal(n) { slides[n].querySelectorAll('.blank').forEach(el => { el.textContent = el.dataset.answer; el.classList.add('revealed'); }); }
 </script>
 </body>
 </html>
