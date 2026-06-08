@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Connectors — Smartboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
+.slide{display:none;width:1265px;height:536px;padding:5vmin;overflow-y:auto}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vmin}
+.q{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+.btns{display:flex;gap:2vmin;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(18px, 2.5vw, 30px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:auto;font-weight:600}
+.btn-reveal:hover{background:#1565c0}
+.btn-nav{background:transparent;color:#1976d2;padding:2vmin 3vmin}
+.btn-nav:disabled{color:#bbb}
+.nav{margin-top:auto;display:flex;align-items:center;gap:1vmin;padding-top:3vmin}
+.cnt{font-size:clamp(14px, 2vw, 24px);color:#999;margin-left:auto}
+</style>
+</head>
+<body>
+
+<div class="slide">
+<h2>Q1/10</h2>
+<div class="q">I love this apartment. It is very cheap. <span class="blank" data-answer="Besides that">____</span>, it is near my office.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(0)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" onclick="go(1)">Next →</button>
+<span class="cnt">1/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q2/10</h2>
+<div class="q">Cooking at home is great. <span class="blank" data-answer="Firstly">____</span>, it saves money. <span class="blank" data-answer="Secondly">____</span>, it is healthier.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(1)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(0)">← Prev</button>
+<button class="btn btn-nav" onclick="go(2)">Next →</button>
+<span class="cnt">2/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q3/10</h2>
+<div class="q">To make a salad, <span class="blank" data-answer="Firstly">____</span> wash the vegetables. <span class="blank" data-answer="Secondly">____</span>, chop them up. <span class="blank" data-answer="Lastly">____</span>, add the dressing.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(2)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(1)">← Prev</button>
+<button class="btn btn-nav" onclick="go(3)">Next →</button>
+<span class="cnt">3/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q4/10</h2>
+<div class="q">She speaks fluent English. <span class="blank" data-answer="In addition">____</span>, she is learning French.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(3)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(2)">← Prev</button>
+<button class="btn btn-nav" onclick="go(4)">Next →</button>
+<span class="cnt">4/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q5/10</h2>
+<div class="q">Traveling by train is fun. <span class="blank" data-answer="Furthermore">____</span>, it is better for the environment than flying.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(4)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(3)">← Prev</button>
+<button class="btn btn-nav" onclick="go(5)">Next →</button>
+<span class="cnt">5/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q6/10</h2>
+<div class="q">To stay fit, <span class="blank" data-answer="Firstly">____</span> you need to eat well. <span class="blank" data-answer="Secondly">____</span>, you must exercise. <span class="blank" data-answer="Lastly">____</span>, you need enough sleep.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(5)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(4)">← Prev</button>
+<button class="btn btn-nav" onclick="go(6)">Next →</button>
+<span class="cnt">6/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q7/10</h2>
+<div class="q">The hotel was very dirty. <span class="blank" data-answer="Furthermore">____</span>, the staff were quite rude.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(6)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(5)">← Prev</button>
+<button class="btn btn-nav" onclick="go(7)">Next →</button>
+<span class="cnt">7/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q8/10</h2>
+<div class="q">I don't want to go to the party. I am too tired. <span class="blank" data-answer="Besides that">____</span>, I have an exam tomorrow.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(7)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(6)">← Prev</button>
+<button class="btn btn-nav" onclick="go(8)">Next →</button>
+<span class="cnt">8/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q9/10</h2>
+<div class="q">Learning a new language takes time. <span class="blank" data-answer="In addition">____</span>, it requires a lot of practice.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(8)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(7)">← Prev</button>
+<button class="btn btn-nav" onclick="go(9)">Next →</button>
+<span class="cnt">9/10</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q10/10</h2>
+<div class="q">He bought a new laptop. <span class="blank" data-answer="In addition">____</span>, he got a free mouse and keyboard.</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(9)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(8)">← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">10/10</span>
+</div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+let current=0;
+function go(n){slides[current].classList.remove('active');current=n;slides[current].classList.add('active')}
+function reveal(n){slides[n].querySelectorAll('.blank').forEach(el=>{el.textContent=el.dataset.answer;el.classList.add('revealed')})}
+</script>
+</body>
+</html>
