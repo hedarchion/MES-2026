@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>1M — Unforgettable Trip: Idioms &amp; Collocations</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
+.slide{display:none;width:1265px;height:536px;padding:5vmin;overflow-y:auto}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+h2{font-size:clamp(14px, 2vw, 22px);color:#888;font-weight:500;margin-bottom:2vmin}
+.q{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+.btns{display:flex;gap:2vmin;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(18px, 2.5vw, 30px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:auto;font-weight:600}
+.btn-reveal:hover{background:#1565c0}
+.btn-nav{background:transparent;color:#1976d2;padding:2vmin 3vmin}
+.btn-nav:disabled{color:#bbb}
+.nav{margin-top:auto;display:flex;align-items:center;gap:1vmin;padding-top:3vmin}
+.cnt{font-size:clamp(14px, 2vw, 24px);color:#999;margin-left:auto}
+</style>
+</head>
+<body>
+
+<div class="slide">
+<h2>Q1/3</h2>
+<div class="q">▸ IDIOMS — An Unforgettable Trip<br><br>A <span class="blank" data-answer="once-in-a-lifetime">____</span> experience (very rare / special)<br>Go <span class="blank" data-answer="off the beaten track">____</span> (places tourists don't visit)<br>Travel <span class="blank" data-answer="broadens the mind">____</span> (becomes more open-minded)<br>A <span class="blank" data-answer="home away from home">____</span> (feels as comfortable as home)<br>Once in a <span class="blank" data-answer="blue moon">____</span> (rare opportunity)</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(0)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" onclick="go(1)">Next →</button>
+<span class="cnt">1/3</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q2/3</h2>
+<div class="q">▸ COLLOCATIONS — High Vocabulary<br><br><span class="blank" data-answer="Breathtaking">____</span> scenery (beautiful natural views)<br><span class="blank" data-answer="Embark">____</span> on a journey (start an exciting trip)<br><span class="blank" data-answer="Immerse">____</span> yourself in the culture (fully experience)<br>Rich cultural <span class="blank" data-answer="heritage">____</span> (deep history &amp; traditions)<br><span class="blank" data-answer="Awe-inspiring">____</span> views (leave you amazed)</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(1)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(0)">← Prev</button>
+<button class="btn btn-nav" onclick="go(2)">Next →</button>
+<span class="cnt">2/3</span>
+</div>
+</div>
+<div class="slide">
+<h2>Q3/3</h2>
+<div class="q">▸ MORE COLLOCATIONS<br><br><span class="blank" data-answer="Wanderlust">____</span> (strong desire to travel)<br>Create <span class="blank" data-answer="lasting memories">____</span> (stay with you forever)<br><span class="blank" data-answer="Off-peak">____</span> season (less crowded / cheaper)<br>A <span class="blank" data-answer="bustling">____</span> street (very busy with people)<br>An <span class="blank" data-answer="unforgettable">____</span> experience (you will never forget)</div>
+<div class="btns">
+<button class="btn btn-reveal" onclick="reveal(2)">▶ Reveal Answer</button>
+</div>
+<div class="nav">
+<button class="btn btn-nav" onclick="go(1)">← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">3/3</span>
+</div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+let current=0;
+function go(n){slides[current].classList.remove('active');current=n;slides[current].classList.add('active')}
+function reveal(n){slides[n].querySelectorAll('.blank').forEach(el=>{el.textContent=el.dataset.answer;el.classList.add('revealed')})}
+</script>
+</body>
+</html>
