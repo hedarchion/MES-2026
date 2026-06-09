@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A2 Discourse Markers Practice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
+.slide{display:none;width:100vw;height:100dvh;padding:5vmin;overflow-y:auto}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+
+/* heading */
+.hdr{font-size:clamp(16px, 2vw, 28px);color:#333;font-weight:600;margin-bottom:2vmin}
+
+/* quiz */
+.q{font-size:clamp(22px, 3vw, 42px);line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:240px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(22px, 3vw, 42px)}
+.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
+.tbl-wrap th{background:#e8e8e8;font-weight:600}
+
+/* text */
+.tx{font-size:clamp(22px, 3vw, 42px);line-height:1.8;max-width:100%}
+
+/* buttons */
+.btns{display:flex;gap:2vmin;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 36px;font-size:clamp(18px, 2.2vw, 32px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:56px;font-weight:600}
+.btn-reveal:hover{background:#1565c0}
+.btn-nav{background:transparent;color:#1976d2;padding:2vmin 3vmin}
+.btn-nav:disabled{color:#bbb}
+.nav{margin-top:auto;display:flex;align-items:center;gap:1vmin;padding-top:3vmin}
+.cnt{font-size:clamp(14px, 1.8vw, 24px);color:#999;margin-left:auto}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<div class="hdr">A2 Discourse Markers</div>
+<div class="tx">Practice Test — 30 Questions<br><br>Choose the best discourse marker to complete each sentence.<br><br>Click on each question to reveal the answer.</div>
+
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" onclick="go(1)">Next →</button>
+<span class="cnt">1/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q1</div>
+<div class="q">I have two reasons to learn English. <span class="blank" data-answer="B) Firstly">______</span>, I need it for my job.<br><br>A) Lastly<br>B) Firstly<br>C) Furthermore</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(1)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(0)">← Prev</button>
+<button class="btn btn-nav" onclick="go(2)">Next →</button>
+<span class="cnt">2/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q2</div>
+<div class="q">Cooking at home is healthy. <span class="blank" data-answer="C) Besides that">______</span>, it saves a lot of money.<br><br>A) Secondly<br>B) Lastly<br>C) Besides that</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(2)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(1)">← Prev</button>
+<button class="btn btn-nav" onclick="go(3)">Next →</button>
+<span class="cnt">3/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q3</div>
+<div class="q">To make a salad, wash the vegetables. <span class="blank" data-answer="A) Secondly">______</span>, chop them into small pieces.<br><br>A) Secondly<br>B) Lastly<br>C) Besides that</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(3)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(2)">← Prev</button>
+<button class="btn btn-nav" onclick="go(4)">Next →</button>
+<span class="cnt">4/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q4</div>
+<div class="q">Traveling by train is cheap. <span class="blank" data-answer="B) Furthermore">______</span>, you can see the beautiful countryside.<br><br>A) Lastly<br>B) Furthermore<br>C) Firstly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(4)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(3)">← Prev</button>
+<button class="btn btn-nav" onclick="go(5)">Next →</button>
+<span class="cnt">5/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q5</div>
+<div class="q">She plays the guitar very well. <span class="blank" data-answer="B) Besides that">______</span>, she sings beautifully.<br><br>A) Firstly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(5)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(4)">← Prev</button>
+<button class="btn btn-nav" onclick="go(6)">Next →</button>
+<span class="cnt">6/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q6</div>
+<div class="q">He has three chores today. <span class="blank" data-answer="A) Firstly">______</span>, he must wash the dishes.<br><br>A) Firstly<br>B) Furthermore<br>C) Besides that</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(6)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(5)">← Prev</button>
+<button class="btn btn-nav" onclick="go(7)">Next →</button>
+<span class="cnt">7/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q7</div>
+<div class="q">We went to the museum. <span class="blank" data-answer="C) Lastly">______</span>, we visited the gift shop before going home.<br><br>A) Firstly<br>B) Furthermore<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(7)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(6)">← Prev</button>
+<button class="btn btn-nav" onclick="go(8)">Next →</button>
+<span class="cnt">8/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q8</div>
+<div class="q">Regular exercise makes you strong. <span class="blank" data-answer="A) Furthermore">______</span>, it helps you sleep better.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(8)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(7)">← Prev</button>
+<button class="btn btn-nav" onclick="go(9)">Next →</button>
+<span class="cnt">9/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q9</div>
+<div class="q">I don't want to go to the party. I am too tired. <span class="blank" data-answer="B) Besides that">______</span>, I have to study.<br><br>A) Secondly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(9)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(8)">← Prev</button>
+<button class="btn btn-nav" onclick="go(10)">Next →</button>
+<span class="cnt">10/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q10</div>
+<div class="q">To open the box, find the key. <span class="blank" data-answer="A) Secondly">______</span>, turn it to the left.<br><br>A) Secondly<br>B) Furthermore<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(10)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(9)">← Prev</button>
+<button class="btn btn-nav" onclick="go(11)">Next →</button>
+<span class="cnt">11/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q11</div>
+<div class="q">The hotel is very clean. <span class="blank" data-answer="B) Furthermore">______</span>, the staff are friendly and helpful.<br><br>A) Firstly<br>B) Furthermore<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(11)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(10)">← Prev</button>
+<button class="btn btn-nav" onclick="go(12)">Next →</button>
+<span class="cnt">12/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q12</div>
+<div class="q">Buying a used car is cheaper. <span class="blank" data-answer="A) Besides that">______</span>, the insurance is less expensive.<br><br>A) Besides that<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(12)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(11)">← Prev</button>
+<button class="btn btn-nav" onclick="go(13)">Next →</button>
+<span class="cnt">13/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q13</div>
+<div class="q">First, we need to buy eggs. Second, we need milk. <span class="blank" data-answer="C) Lastly">______</span>, we need flour.<br><br>A) Furthermore<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(13)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(12)">← Prev</button>
+<button class="btn btn-nav" onclick="go(14)">Next →</button>
+<span class="cnt">14/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q14</div>
+<div class="q">The new smartphone has a great camera. <span class="blank" data-answer="A) Furthermore">______</span>, the battery lasts for two days.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(14)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(13)">← Prev</button>
+<button class="btn btn-nav" onclick="go(15)">Next →</button>
+<span class="cnt">15/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q15</div>
+<div class="q">I cannot buy that jacket. It is too big. <span class="blank" data-answer="B) Besides that">______</span>, it is very expensive.<br><br>A) Secondly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(15)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(14)">← Prev</button>
+<button class="btn btn-nav" onclick="go(16)">Next →</button>
+<span class="cnt">16/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q16</div>
+<div class="q">There are three steps to join the club. <span class="blank" data-answer="B) Firstly">______</span>, fill out this form.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(16)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(15)">← Prev</button>
+<button class="btn btn-nav" onclick="go(17)">Next →</button>
+<span class="cnt">17/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q17</div>
+<div class="q">Reading books improves your vocabulary. <span class="blank" data-answer="A) Furthermore">______</span>, it expands your knowledge.<br><br>A) Furthermore<br>B) Secondly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(17)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(16)">← Prev</button>
+<button class="btn btn-nav" onclick="go(18)">Next →</button>
+<span class="cnt">18/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q18</div>
+<div class="q">He didn't practice for the game. <span class="blank" data-answer="B) Besides that">______</span>, he forgot his running shoes.<br><br>A) Firstly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(18)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(17)">← Prev</button>
+<button class="btn btn-nav" onclick="go(19)">Next →</button>
+<span class="cnt">19/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q19</div>
+<div class="q">First, download the app. <span class="blank" data-answer="B) Secondly">______</span>, create a new account with your email.<br><br>A) Furthermore<br>B) Secondly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(19)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(18)">← Prev</button>
+<button class="btn btn-nav" onclick="go(20)">Next →</button>
+<span class="cnt">20/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q20</div>
+<div class="q">This restaurant serves delicious food. <span class="blank" data-answer="A) Besides that">______</span>, the prices are very low.<br><br>A) Besides that<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(20)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(19)">← Prev</button>
+<button class="btn btn-nav" onclick="go(21)">Next →</button>
+<span class="cnt">21/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q21</div>
+<div class="q">To fix the toy, check the batteries. Second, look at the switch. <span class="blank" data-answer="C) Lastly">______</span>, press the reset button.<br><br>A) Furthermore<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(21)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(20)">← Prev</button>
+<button class="btn btn-nav" onclick="go(22)">Next →</button>
+<span class="cnt">22/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q22</div>
+<div class="q">Walking is good for your heart. <span class="blank" data-answer="A) Furthermore">______</span>, it does not cost any money.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(22)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(21)">← Prev</button>
+<button class="btn btn-nav" onclick="go(23)">Next →</button>
+<span class="cnt">23/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q23</div>
+<div class="q">I love this apartment because it is near the subway. <span class="blank" data-answer="A) Besides that">______</span>, it has a big balcony.<br><br>A) Besides that<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(23)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(22)">← Prev</button>
+<button class="btn btn-nav" onclick="go(24)">Next →</button>
+<span class="cnt">24/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q24</div>
+<div class="q">She wants to visit Paris for three reasons. <span class="blank" data-answer="B) Firstly">______</span>, she loves French food.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(24)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(23)">← Prev</button>
+<button class="btn btn-nav" onclick="go(25)">Next →</button>
+<span class="cnt">25/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q25</div>
+<div class="q">The test was very long. <span class="blank" data-answer="B) Besides that">______</span>, the classroom was too cold.<br><br>A) Firstly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(25)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(24)">← Prev</button>
+<button class="btn btn-nav" onclick="go(26)">Next →</button>
+<span class="cnt">26/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q26</div>
+<div class="q">First, boil the water. <span class="blank" data-answer="A) Secondly">______</span>, add the tea bag to the cup.<br><br>A) Secondly<br>B) Furthermore<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(26)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(25)">← Prev</button>
+<button class="btn btn-nav" onclick="go(27)">Next →</button>
+<span class="cnt">27/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q27</div>
+<div class="q">Learning a new language is fun. <span class="blank" data-answer="A) Furthermore">______</span>, it helps you make new friends.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(27)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(26)">← Prev</button>
+<button class="btn btn-nav" onclick="go(28)">Next →</button>
+<span class="cnt">28/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q28</div>
+<div class="q">I missed the bus this morning. <span class="blank" data-answer="B) Besides that">______</span>, I dropped my phone on the floor.<br><br>A) Firstly<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(28)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(27)">← Prev</button>
+<button class="btn btn-nav" onclick="go(29)">Next →</button>
+<span class="cnt">29/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q29</div>
+<div class="q">To clean your room, pick up the clothes. Second, dust the desk. <span class="blank" data-answer="C) Lastly">______</span>, vacuum the carpet.<br><br>A) Furthermore<br>B) Besides that<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(29)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(28)">← Prev</button>
+<button class="btn btn-nav" onclick="go(30)">Next →</button>
+<span class="cnt">30/31</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Q30</div>
+<div class="q">The movie has an amazing story. <span class="blank" data-answer="A) Furthermore">______</span>, the music is beautiful.<br><br>A) Furthermore<br>B) Firstly<br>C) Lastly</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(30)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(29)">← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">31/31</span>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
+function reveal(n) { slides[n].querySelectorAll('.blank').forEach(el => { el.textContent = el.dataset.answer; el.classList.add('revealed'); }); }
+</script>
+</body>
+</html>
