@@ -3,145 +3,336 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>1E M19 Wed - Present Tense</title>
+<title>1E M19 Wed — Present Tense</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
-.slide{display:none;width:1265px;height:536px;padding:5vmin;overflow-y:auto}
-.slide.active{display:flex;flex-direction:column;justify-content:center}
+html,body{height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;background:#1a1a2e}
+.slide{display:none;width:1265px;height:536px;padding:30px 40px;overflow:hidden;position:relative}
+.slide.active{display:flex;flex-direction:column}
 
-/* heading */
-.hdr{font-size:clamp(14px, 2vw, 22px);color:#333;font-weight:600;margin-bottom:2vmin}
+/* base */
+.hdr{font-size:24px;font-weight:700;color:#e0e0e0;margin-bottom:6px;flex-shrink:0}
+.hdr .num{color:#7c7c9a;font-weight:400;margin-right:8px}
+.sub{font-size:14px;color:#8888aa;margin-bottom:12px;flex-shrink:0}
 
-/* quiz */
-.q{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;margin-bottom:3vmin}
-.blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
-.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+/* text slides */
+.tx{font-size:20px;line-height:1.6;color:#ccc;max-width:100%;flex:1;display:flex;flex-direction:column;justify-content:center}
+.tx strong{color:#fff;font-weight:600}
+.tx em{color:#7ec8e3;font-style:normal}
+.tx .ex{display:block;color:#a0d8a0;font-size:19px;margin-top:6px;padding-left:20px;border-left:3px solid rgba(255,255,255,.15)}
+.tx ul{list-style:none;margin:6px 0}
+.tx ul li{padding:2px 0;padding-left:20px;position:relative}
+.tx ul li::before{content:"\u2022";position:absolute;left:4px;color:#7ec8e3}
+.tx ul li strong{color:#f0c060}
+
+/* quiz slides */
+.q{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.q-item{font-size:21px;line-height:1.7;color:#eee;padding:14px 18px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1)}
+.q-item .q-label{display:inline-block;background:#3a3a5c;border-radius:50%;width:30px;height:30px;text-align:center;line-height:30px;font-weight:700;font-size:15px;color:#eee;margin-right:10px;flex-shrink:0}
+.q-context{color:#aaa;font-size:17px;margin-bottom:4px}
+
+/* blank - individually clickable */
+.blank{display:inline-block;border-bottom:2.5px dashed #7ec8e3;min-width:130px;text-align:center;padding:0 8px;color:transparent;cursor:pointer;transition:all .25s;border-radius:4px;user-select:none;-webkit-tap-highlight-color:transparent;position:relative;font-weight:600}
+.blank:hover{background:rgba(126,200,227,.15)}
+.blank.revealed{color:#4caf50;border-bottom-color:#4caf50;cursor:default}
+.blank.w2{min-width:100px}
+.blank.w3{min-width:160px}
+.blank.w4{min-width:200px}
 
 /* table */
-.tbl-wrap{overflow-x:auto}
-.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(24px, 3.2vw, 40px)}
-.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
-.tbl-wrap th{background:#e8e8e8;font-weight:600}
+.tbl-wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:18px;color:#ccc}
+.tbl-wrap th,.tbl-wrap td{border:1px solid rgba(255,255,255,.15);padding:12px 18px;text-align:left}
+.tbl-wrap th{background:rgba(255,255,255,.08);color:#ddd;font-weight:600;font-size:17px}
+.tbl-wrap td{background:rgba(255,255,255,.03)}
+.tbl-wrap tr:first-child td{border-top:none}
 
-/* text */
-.tx{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;max-width:100%}
+/* nav */
+.nav{display:flex;align-items:center;gap:10px;padding-top:6px;flex-shrink:0;margin-top:auto}
+.btn-nav{background:rgba(255,255,255,.08);color:#bbb;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 18px;font-size:14px;cursor:pointer;transition:all .2s}
+.btn-nav:hover{background:rgba(255,255,255,.16);color:#eee}
+.btn-nav:disabled{opacity:.25;cursor:not-allowed}
+.cnt{font-size:13px;color:#666;margin-left:auto}
 
-/* buttons */
-.btns{display:flex;gap:2vmin;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(18px, 2.5vw, 30px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:auto;font-weight:600}
-.btn-reveal:hover{background:#1565c0}
-.btn-nav{background:transparent;color:#1976d2;padding:2vmin 3vmin}
-.btn-nav:disabled{color:#bbb}
-.nav{margin-top:auto;display:flex;align-items:center;gap:1vmin;padding-top:3vmin}
-.cnt{font-size:clamp(14px, 2vw, 24px);color:#999;margin-left:auto}
+/* instruction badge */
+.ins{font-size:12px;color:#7ec8e3;background:rgba(126,200,227,.12);display:inline-block;padding:2px 10px;border-radius:4px;margin-bottom:6px;align-self:flex-start}
 </style>
 </head>
 <body>
 
+<!-- SLIDE 1: Welcome -->
 <div class="slide active">
-<div class="hdr">Welcome! Today's Goal</div>
-<div class="tx">Talking About Time<br><br>We use different tenses to talk about when things happen. Today, we will look at two important times:<br><br>• Present Simple: For habits and routines.<br>• Present Continuous: For things happening right now.</div>
+  <div class="hdr"><span class="num">1</span>Welcome! Today's Goal</div>
+  <div class="sub">1E &middot; M19 &middot; Wednesday</div>
+  <div class="tx">
+    <strong>Talking About Time</strong><br>
+    We use different tenses to talk about when things happen. Today, we will look at two important times:
+    <ul>
+      <li><strong>Present Simple:</strong> For habits and routines.</li>
+      <li><strong>Present Continuous:</strong> For things happening right now.</li>
+    </ul>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" disabled>&larr; Prev</button>
+    <button class="btn-nav" onclick="go(1)">Next &rarr;</button>
+    <span class="cnt">1/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" disabled>← Prev</button>
-<button class="btn btn-nav" onclick="go(1)">Next →</button>
-<span class="cnt">1/9</span>
-</div>
-</div>
+<!-- SLIDE 2: Present Simple -->
 <div class="slide">
-<div class="hdr">The Present Simple</div>
-<div class="tx">Habits &amp; Routines<br><br>We use the Present Simple for things we do again and again. These are our habits, routines, or facts that are always true.<br><br>Examples:<br><br>• I walk to school.<br>• She plays tennis.</div>
+  <div class="hdr"><span class="num">2</span>The Present Simple</div>
+  <div class="sub">Habits &amp; Routines</div>
+  <div class="tx">
+    We use the <strong>Present Simple</strong> for things we do again and again &mdash; habits, routines, or facts that are always true.<br><br>
+    <div class="ex">I walk to school.</div>
+    <div class="ex">She plays tennis.</div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(0)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(2)">Next &rarr;</button>
+    <span class="cnt">2/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(0)">← Prev</button>
-<button class="btn btn-nav" onclick="go(2)">Next →</button>
-<span class="cnt">2/9</span>
-</div>
-</div>
+<!-- SLIDE 3: Time Words -->
 <div class="slide">
-<div class="hdr">Present Simple Time Words</div>
-<div class="tx">How often?<br><br>We use special &quot;time words&quot; to show how frequently we do these habits.<br><br>• often → I often read books in the evening.<br>• sometimes → We sometimes eat pizza on Fridays.<br>• every day → He brushes his teeth every day.<br>• once a week → They wash the car once a week.<br>• every week → She visits her grandmother every week.<br><br>Word Order Tip: Put &quot;often&quot; and &quot;sometimes&quot; before the action word. Put &quot;every day&quot;, &quot;once a week&quot;, and &quot;every week&quot; at the end of the sentence.</div>
+  <div class="hdr"><span class="num">3</span>Present Simple Time Words</div>
+  <div class="sub">How often?</div>
+  <div class="tx">
+    <ul>
+      <li><strong>often</strong> &rarr; I often read books in the evening.</li>
+      <li><strong>sometimes</strong> &rarr; We sometimes eat pizza on Fridays.</li>
+      <li><strong>every day</strong> &rarr; He brushes his teeth every day.</li>
+      <li><strong>once a week</strong> &rarr; They wash the car once a week.</li>
+      <li><strong>every week</strong> &rarr; She visits her grandmother every week.</li>
+    </ul>
+    <br>
+    <em>Word Order Tip:</em> Put <strong>often</strong> and <strong>sometimes</strong> before the action word. Put <strong>every day</strong>, <strong>once a week</strong>, and <strong>every week</strong> at the end.
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(1)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(3)">Next &rarr;</button>
+    <span class="cnt">3/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(1)">← Prev</button>
-<button class="btn btn-nav" onclick="go(3)">Next →</button>
-<span class="cnt">3/9</span>
-</div>
-</div>
+<!-- SLIDE 4: Q1 -->
 <div class="slide">
-<div class="hdr">Quick Check — Present Simple</div>
-<div class="q">Can you complete these sentences?<br><br>1. He <span class="blank" data-answer="goes">____</span> to bed early every night.<br><br>2. We <span class="blank" data-answer="usually">____</span> <span class="blank" data-answer="drink">____</span> tea in the morning.</div>
-<div class="btns"><button class="btn btn-reveal" onclick="reveal(3)">▶ Reveal Answer</button></div>
+  <div class="hdr"><span class="num">4</span>Quick Check</div>
+  <div class="sub">Tap the blank to reveal the answer</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">1</span>
+      He <span class="blank w2" onclick="reveal(this)" data-answer="goes">______</span> to bed early every night.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(2)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(4)">Next &rarr;</button>
+    <span class="cnt">4/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(2)">← Prev</button>
-<button class="btn btn-nav" onclick="go(4)">Next →</button>
-<span class="cnt">4/9</span>
-</div>
-</div>
+<!-- SLIDE 5: Q2 (two blanks) -->
 <div class="slide">
-<div class="hdr">The Present Continuous</div>
-<div class="tx">Right Now!<br><br>We use the Present Continuous for actions that are happening at this exact moment, or around now. The action is not finished.<br><br>Form: am / is / are + action word ending in -ing<br><br>Examples:<br><br>• I am speaking English right now.<br>• Look! It is raining.<br>• They are studying for their exam today.</div>
+  <div class="hdr"><span class="num">5</span>Quick Check</div>
+  <div class="sub">Tap each blank to reveal &mdash; what is the right word order?</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">2</span>
+      We <span class="blank w2" onclick="reveal(this)" data-answer="usually">______</span> <span class="blank w2" onclick="reveal(this)" data-answer="drink">______</span> tea in the morning.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(3)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(5)">Next &rarr;</button>
+    <span class="cnt">5/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(3)">← Prev</button>
-<button class="btn btn-nav" onclick="go(5)">Next →</button>
-<span class="cnt">5/9</span>
-</div>
-</div>
+<!-- SLIDE 6: Present Continuous -->
 <div class="slide">
-<div class="hdr">Present Continuous Time Words</div>
-<div class="tx">When is it happening?<br><br>Instead of talking about habits, these time words point directly to this moment:<br><br>• now / right now → I am watching TV now.<br>• at the moment → She is sleeping at the moment.<br>• today → We are wearing jackets today because it is cold.</div>
+  <div class="hdr"><span class="num">6</span>The Present Continuous</div>
+  <div class="sub">Right Now!</div>
+  <div class="tx">
+    We use the <strong>Present Continuous</strong> for actions happening at this exact moment, or around now. The action is not finished.<br><br>
+    <em>Form:</em> <strong>am / is / are</strong> + action word ending in <strong>-ing</strong><br><br>
+    <div class="ex">I am speaking English right now.</div>
+    <div class="ex">Look! It is raining.</div>
+    <div class="ex">They are studying for their exam today.</div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(4)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(6)">Next &rarr;</button>
+    <span class="cnt">6/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(4)">← Prev</button>
-<button class="btn btn-nav" onclick="go(6)">Next →</button>
-<span class="cnt">6/9</span>
-</div>
-</div>
+<!-- SLIDE 7: Present Continuous Time Words -->
 <div class="slide">
-<div class="hdr">Quick Check — Right Now!</div>
-<div class="q">Can you complete these sentences?<br><br>3. Shhh! The baby <span class="blank" data-answer="is sleeping">____</span> at the moment.<br><br>4. I cannot help you because I <span class="blank" data-answer="am cooking">____</span> dinner right now.</div>
-<div class="btns"><button class="btn btn-reveal" onclick="reveal(6)">▶ Reveal Answer</button></div>
+  <div class="hdr"><span class="num">7</span>Present Continuous Time Words</div>
+  <div class="sub">When is it happening?</div>
+  <div class="tx">
+    Instead of talking about habits, these time words point directly to this moment:
+    <ul>
+      <li><strong>now / right now</strong> &rarr; I am watching TV now.</li>
+      <li><strong>at the moment</strong> &rarr; She is sleeping at the moment.</li>
+      <li><strong>today</strong> &rarr; We are wearing jackets today because it is cold.</li>
+    </ul>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(5)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(7)">Next &rarr;</button>
+    <span class="cnt">7/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(5)">← Prev</button>
-<button class="btn btn-nav" onclick="go(7)">Next →</button>
-<span class="cnt">7/9</span>
-</div>
-</div>
+<!-- SLIDE 8: Q3 -->
 <div class="slide">
-<div class="hdr">Compare the Two Tenses</div>
-<div class="tbl-wrap"><table><thead><tr><th>Present Simple (Routine)</th><th>Present Continuous (Right Now)</th></tr></thead><tbody><tr><td>I usually drive to work.</td><td>Today, I am walking to work.</td></tr>
-<tr><td>He plays football every week.</td><td>Look! He is playing football now.</td></tr>
-<tr><td>They sometimes watch a movie.</td><td>At the moment, they are watching a movie.</td></tr></tbody></table></div>
+  <div class="hdr"><span class="num">8</span>Quick Check &mdash; Right Now!</div>
+  <div class="sub">Tap the blank to reveal the answer</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">3</span>
+      Shhh! The baby <span class="blank w3" onclick="reveal(this)" data-answer="is sleeping">________</span> at the moment.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(6)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(8)">Next &rarr;</button>
+    <span class="cnt">8/14</span>
+  </div>
+</div>
 
-<div class="nav">
-<button class="btn btn-nav" onclick="go(6)">← Prev</button>
-<button class="btn btn-nav" onclick="go(8)">Next →</button>
-<span class="cnt">8/9</span>
-</div>
-</div>
+<!-- SLIDE 9: Q4 -->
 <div class="slide">
-<div class="hdr">Let's Practice!</div>
-<div class="q">Choose the correct tense:<br><br>1. I <span class="blank" data-answer="go">____</span> to the gym once a week.<br><br>2. Listen! The birds <span class="blank" data-answer="are singing">____</span> now.<br><br>3. She sometimes <span class="blank" data-answer="buys">____</span> lunch at school.<br><br>4. We <span class="blank" data-answer="are not studying">____</span> at the moment.</div>
-<div class="btns"><button class="btn btn-reveal" onclick="reveal(8)">▶ Reveal Answer</button></div>
-
-<div class="nav">
-<button class="btn btn-nav" onclick="go(7)">← Prev</button>
-<button class="btn btn-nav" disabled>Next →</button>
-<span class="cnt">9/9</span>
+  <div class="hdr"><span class="num">9</span>Quick Check &mdash; Right Now!</div>
+  <div class="sub">Tap the blank to reveal the answer</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">4</span>
+      I cannot help you because I <span class="blank w3" onclick="reveal(this)" data-answer="am cooking">________</span> dinner right now.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(7)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(9)">Next &rarr;</button>
+    <span class="cnt">9/14</span>
+  </div>
 </div>
+
+<!-- SLIDE 10: Compare -->
+<div class="slide">
+  <div class="hdr"><span class="num">10</span>Compare the Two Tenses</div>
+  <div class="sub">Routine vs Right Now</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Present Simple (Routine)</th><th>Present Continuous (Right Now)</th></tr></thead>
+      <tbody>
+        <tr><td>I usually drive to work.</td><td>Today, I am walking to work.</td></tr>
+        <tr><td>He plays football every week.</td><td>Look! He is playing football now.</td></tr>
+        <tr><td>They sometimes watch a movie.</td><td>At the moment, they are watching a movie.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(8)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(10)">Next &rarr;</button>
+    <span class="cnt">10/14</span>
+  </div>
+</div>
+
+<!-- SLIDE 11: Q5 -->
+<div class="slide">
+  <div class="hdr"><span class="num">11</span>Let's Practice!</div>
+  <div class="sub">Tap each blank to reveal the correct word</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">1</span>
+      I <span class="blank w2" onclick="reveal(this)" data-answer="go">______</span> to the gym once a week.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(9)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(11)">Next &rarr;</button>
+    <span class="cnt">11/14</span>
+  </div>
+</div>
+
+<!-- SLIDE 12: Q6 -->
+<div class="slide">
+  <div class="hdr"><span class="num">12</span>Let's Practice!</div>
+  <div class="sub">Tap the blank to reveal the correct word</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">2</span>
+      Listen! The birds <span class="blank w3" onclick="reveal(this)" data-answer="are singing">________</span> now.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(10)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(12)">Next &rarr;</button>
+    <span class="cnt">12/14</span>
+  </div>
+</div>
+
+<!-- SLIDE 13: Q7 -->
+<div class="slide">
+  <div class="hdr"><span class="num">13</span>Let's Practice!</div>
+  <div class="sub">Tap the blank to reveal the correct word</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">3</span>
+      She sometimes <span class="blank w2" onclick="reveal(this)" data-answer="buys">______</span> lunch at school.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(11)">&larr; Prev</button>
+    <button class="btn-nav" onclick="go(13)">Next &rarr;</button>
+    <span class="cnt">13/14</span>
+  </div>
+</div>
+
+<!-- SLIDE 14: Q8 -->
+<div class="slide">
+  <div class="hdr"><span class="num">14</span>Let's Practice!</div>
+  <div class="sub">Tap the blank to reveal the correct answer</div>
+  <div class="q">
+    <div class="ins">&#9654; Tap each <strong>____</strong> to reveal</div>
+    <div class="q-item">
+      <span class="q-label">4</span>
+      We <span class="blank w4" onclick="reveal(this)" data-answer="are not studying">________</span> at the moment.
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(12)">&larr; Prev</button>
+    <button class="btn-nav" disabled>Next &rarr;</button>
+    <span class="cnt">14/14</span>
+  </div>
 </div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
 let current = 0;
-function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
-function reveal(n) { slides[n].querySelectorAll('.blank').forEach(el => { el.textContent = el.dataset.answer; el.classList.add('revealed'); }); }
+function go(n) {
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+}
+
+function reveal(el) {
+  if (el.classList.contains('revealed')) return;
+  el.textContent = el.dataset.answer;
+  el.classList.add('revealed');
+}
 </script>
 </body>
 </html>
