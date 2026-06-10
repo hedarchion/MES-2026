@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>1E M19 Wed - Present Tense</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
+.slide{display:none;width:1265px;height:536px;padding:5vmin;overflow-y:auto}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+
+/* heading */
+.hdr{font-size:clamp(14px, 2vw, 22px);color:#333;font-weight:600;margin-bottom:2vmin}
+
+/* quiz */
+.q{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:.3vmin dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;transition:color .2s}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(24px, 3.2vw, 40px)}
+.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
+.tbl-wrap th{background:#e8e8e8;font-weight:600}
+
+/* text */
+.tx{font-size:clamp(24px, 3.2vw, 40px);line-height:1.8;max-width:100%}
+
+/* buttons */
+.btns{display:flex;gap:2vmin;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(18px, 2.5vw, 30px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-reveal{background:#1976d2;color:#fff;flex:1;min-height:auto;font-weight:600}
+.btn-reveal:hover{background:#1565c0}
+.btn-nav{background:transparent;color:#1976d2;padding:2vmin 3vmin}
+.btn-nav:disabled{color:#bbb}
+.nav{margin-top:auto;display:flex;align-items:center;gap:1vmin;padding-top:3vmin}
+.cnt{font-size:clamp(14px, 2vw, 24px);color:#999;margin-left:auto}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<div class="hdr">Welcome! Today's Goal</div>
+<div class="tx">Talking About Time<br><br>We use different tenses to talk about when things happen. Today, we will look at two important times:<br><br>• Present Simple: For habits and routines.<br>• Present Continuous: For things happening right now.</div>
+
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" onclick="go(1)">Next →</button>
+<span class="cnt">1/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">The Present Simple</div>
+<div class="tx">Habits &amp; Routines<br><br>We use the Present Simple for things we do again and again. These are our habits, routines, or facts that are always true.<br><br>Examples:<br><br>• I walk to school.<br>• She plays tennis.</div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(0)">← Prev</button>
+<button class="btn btn-nav" onclick="go(2)">Next →</button>
+<span class="cnt">2/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Present Simple Time Words</div>
+<div class="tx">How often?<br><br>We use special &quot;time words&quot; to show how frequently we do these habits.<br><br>• often → I often read books in the evening.<br>• sometimes → We sometimes eat pizza on Fridays.<br>• every day → He brushes his teeth every day.<br>• once a week → They wash the car once a week.<br>• every week → She visits her grandmother every week.<br><br>Word Order Tip: Put &quot;often&quot; and &quot;sometimes&quot; before the action word. Put &quot;every day&quot;, &quot;once a week&quot;, and &quot;every week&quot; at the end of the sentence.</div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(1)">← Prev</button>
+<button class="btn btn-nav" onclick="go(3)">Next →</button>
+<span class="cnt">3/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Quick Check — Present Simple</div>
+<div class="q">Can you complete these sentences?<br><br>1. He <span class="blank" data-answer="goes">____</span> to bed early every night.<br><br>2. We <span class="blank" data-answer="usually">____</span> <span class="blank" data-answer="drink">____</span> tea in the morning.</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(3)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(2)">← Prev</button>
+<button class="btn btn-nav" onclick="go(4)">Next →</button>
+<span class="cnt">4/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">The Present Continuous</div>
+<div class="tx">Right Now!<br><br>We use the Present Continuous for actions that are happening at this exact moment, or around now. The action is not finished.<br><br>Form: am / is / are + action word ending in -ing<br><br>Examples:<br><br>• I am speaking English right now.<br>• Look! It is raining.<br>• They are studying for their exam today.</div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(3)">← Prev</button>
+<button class="btn btn-nav" onclick="go(5)">Next →</button>
+<span class="cnt">5/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Present Continuous Time Words</div>
+<div class="tx">When is it happening?<br><br>Instead of talking about habits, these time words point directly to this moment:<br><br>• now / right now → I am watching TV now.<br>• at the moment → She is sleeping at the moment.<br>• today → We are wearing jackets today because it is cold.</div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(4)">← Prev</button>
+<button class="btn btn-nav" onclick="go(6)">Next →</button>
+<span class="cnt">6/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Quick Check — Right Now!</div>
+<div class="q">Can you complete these sentences?<br><br>3. Shhh! The baby <span class="blank" data-answer="is sleeping">____</span> at the moment.<br><br>4. I cannot help you because I <span class="blank" data-answer="am cooking">____</span> dinner right now.</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(6)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(5)">← Prev</button>
+<button class="btn btn-nav" onclick="go(7)">Next →</button>
+<span class="cnt">7/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Compare the Two Tenses</div>
+<div class="tbl-wrap"><table><thead><tr><th>Present Simple (Routine)</th><th>Present Continuous (Right Now)</th></tr></thead><tbody><tr><td>I usually drive to work.</td><td>Today, I am walking to work.</td></tr>
+<tr><td>He plays football every week.</td><td>Look! He is playing football now.</td></tr>
+<tr><td>They sometimes watch a movie.</td><td>At the moment, they are watching a movie.</td></tr></tbody></table></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(6)">← Prev</button>
+<button class="btn btn-nav" onclick="go(8)">Next →</button>
+<span class="cnt">8/9</span>
+</div>
+</div>
+<div class="slide">
+<div class="hdr">Let's Practice!</div>
+<div class="q">Choose the correct tense:<br><br>1. I <span class="blank" data-answer="go">____</span> to the gym once a week. (go / am going)<br><br>2. Listen! The birds <span class="blank" data-answer="are singing">____</span> now. (sing / are singing)<br><br>3. She sometimes <span class="blank" data-answer="buys">____</span> lunch at school. (buys / is buying)<br><br>4. We <span class="blank" data-answer="are not studying">____</span> at the moment. (don't study / are not studying)</div>
+<div class="btns"><button class="btn btn-reveal" onclick="reveal(8)">▶ Reveal Answer</button></div>
+
+<div class="nav">
+<button class="btn btn-nav" onclick="go(7)">← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">9/9</span>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
+function reveal(n) { slides[n].querySelectorAll('.blank').forEach(el => { el.textContent = el.dataset.answer; el.classList.add('revealed'); }); }
+</script>
+</body>
+</html>
