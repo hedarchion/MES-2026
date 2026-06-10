@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;background:#1a1a2e}
-.slide{display:none;width:1280px;height:624px;padding:24px 36px;overflow:hidden;position:relative}
+.slide{display:none;width:1280px;height:624px;padding:24px 36px 72px 36px;overflow:hidden;position:relative}
 .slide.active{display:flex;flex-direction:column}
 
 /* base */
@@ -48,7 +48,7 @@ html,body{height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-s
 .tbl-wrap tr:first-child td{border-top:none}
 
 /* nav */
-.nav{display:flex;align-items:center;gap:10px;padding-top:6px;flex-shrink:0;margin-top:auto;min-height:42px}
+.nav{display:flex;align-items:center;gap:10px;flex-shrink:0;min-height:40px;position:absolute;bottom:24px;left:36px;right:36px}
 .btn-nav{background:rgba(255,255,255,.08);color:#bbb;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 20px;font-size:16px;cursor:pointer;transition:all .2s}
 .btn-nav:hover{background:rgba(255,255,255,.16);color:#eee}
 .btn-nav:disabled{opacity:.25;cursor:not-allowed}
