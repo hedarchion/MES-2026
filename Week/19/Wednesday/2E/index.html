@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>2E M19 WED - Solar Energy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
+.slide{display:none;width:1265px;height:536px;padding:24px 32px;overflow:hidden;position:relative}
+.slide.active{display:flex;flex-direction:column}
+
+/* --- SLIDE 1: Video --- */
+#s0{align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#1a237e,#283593)}
+#s0 .hdr{font-size:28px;font-weight:700;color:#fff;text-align:center}
+#s0 .sub{font-size:16px;color:#90caf9;margin-bottom:8px}
+.video-wrap{width:760px;height:360px;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.video-wrap iframe{width:100%;height:100%;border:none}
+
+/* --- SLIDE 2: Quadrant --- */
+#s1{background:linear-gradient(135deg,#0d47a1,#1565c0);gap:10px}
+#s1 .hdr{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:4px}
+#s1 .sub{font-size:13px;color:#bbdefb;text-align:center;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1;min-height:0}
+.quad{position:relative;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;cursor:pointer;transition:all .25s;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent}
+/* unrevealed: white-ish with subtle border */
+.quad.unrevealed{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);backdrop-filter:blur(4px)}
+.quad.unrevealed:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.4);transform:scale(1.02)}
+/* revealed green */
+.quad.correct{background:rgba(76,175,80,.85);border:2px solid #4caf50}
+/* revealed red */
+.quad.wrong{background:rgba(244,67,54,.85);border:2px solid #f44336}
+.q-text{color:#fff;font-size:15px;line-height:1.5;font-weight:500;flex:1}
+.q-num{display:inline-block;background:rgba(255,255,255,.3);border-radius:50%;width:28px;height:28px;text-align:center;line-height:28px;font-weight:700;font-size:14px;color:#fff;margin-bottom:6px;flex-shrink:0}
+.why-text{display:none;color:#fff;font-size:12.5px;line-height:1.5;margin-top:6px;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.25);flex-shrink:0;max-height:100px;overflow-y:auto}
+.why-text.show{display:block}
+.quad-label{position:absolute;top:8px;right:10px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;color:#fff}
+.quad-label.right{background:rgba(76,175,80,.6)}
+.quad-label.wrong{background:rgba(244,67,54,.6)}
+.label-text{display:none}
+.label-text.show{display:inline}
+
+/* nav */
+.nav{display:flex;align-items:center;gap:10px;padding-top:8px;flex-shrink:0}
+.btn-nav{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 20px;font-size:14px;cursor:pointer;transition:background .2s}
+.btn-nav:hover{background:rgba(255,255,255,.25)}
+.btn-nav:disabled{opacity:.3;cursor:not-allowed}
+.cnt{font-size:13px;color:rgba(255,255,255,.6);margin-left:auto}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Video -->
+<div class="slide active" id="s0">
+  <div class="sub">2E · M19 · Wednesday · Solar Energy</div>
+  <div class="hdr">&#9654; How do solar panels work?</div>
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/xKxrkht7CpY?rel=0&showinfo=0" allowfullscreen></iframe>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" disabled>&larr; Prev</button>
+    <button class="btn-nav" onclick="go(1)">Next &rarr;</button>
+    <span class="cnt">1/2</span>
+  </div>
+</div>
+
+<!-- SLIDE 2: Quadrant -->
+<div class="slide" id="s1">
+  <div class="hdr">Solar Energy — True or False?</div>
+  <div class="sub">Tap each statement to check your answer &bull; <span style="color:#81c784">Green = Correct</span> &bull; <span style="color:#ef9a9a">Red = Wrong</span></div>
+  <div class="grid">
+    <!-- Q1 - WRONG -->
+    <div class="quad unrevealed" data-correct="false" onclick="revealQuad(this)">
+      <span class="q-num">1</span>
+      <span class="q-text">Solar panels make electricity because they get very hot from the sun's warm rays.</span>
+      <div class="why-text">&#10060; Solar panels use <strong>light</strong>, not heat, to make electricity. They work better when it's cold and sunny rather than hot and sunny!</div>
+      <span class="quad-label wrong"><span class="label-text">&#10060; WRONG</span></span>
+    </div>
+    <!-- Q2 - RIGHT -->
+    <div class="quad unrevealed" data-correct="true" onclick="revealQuad(this)">
+      <span class="q-num">2</span>
+      <span class="q-text">Solar panels can still make power on cloudy days, but they make less than on sunny days.</span>
+      <div class="why-text">&#9989; Sunlight can still go through clouds. It's not as strong, so the panels make less energy, but they don't stop working completely.</div>
+      <span class="quad-label right"><span class="label-text">&#9989; CORRECT</span></span>
+    </div>
+    <!-- Q3 - RIGHT -->
+    <div class="quad unrevealed" data-correct="true" onclick="revealQuad(this)">
+      <span class="q-num">3</span>
+      <span class="q-text">Some large solar power stations use mirrors to focus sunlight, heat up water, and make steam to turn machines that produce electricity.</span>
+      <div class="why-text">&#9989; This is a different type of solar power (CSP). Instead of using normal panels, it uses giant mirrors to catch heat and make steam, just like older power stations.</div>
+      <span class="quad-label right"><span class="label-text">&#9989; CORRECT</span></span>
+    </div>
+    <!-- Q4 - WRONG -->
+    <div class="quad unrevealed" data-correct="false" onclick="revealQuad(this)">
+      <span class="q-num">4</span>
+      <span class="q-text">Making a solar panel in a factory creates absolutely no pollution and uses no oil or coal.</span>
+      <div class="why-text">&#10060; Running a solar panel is completely clean. However, building them in factories still requires a lot of energy, mining, and transport, which creates some pollution at the start.</div>
+      <span class="quad-label wrong"><span class="label-text">&#10060; WRONG</span></span>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav" onclick="go(0)">&larr; Prev</button>
+    <button class="btn-nav" disabled>Next &rarr;</button>
+    <span class="cnt">2/2</span>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) {
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+}
+
+function revealQuad(el) {
+  if (!el.classList.contains('unrevealed')) return;
+  el.classList.remove('unrevealed');
+  const correct = el.dataset.correct === 'true';
+  el.classList.add(correct ? 'correct' : 'wrong');
+  // Show the explanation
+  const why = el.querySelector('.why-text');
+  const lbl = el.querySelector('.label-text');
+  if (why) why.classList.add('show');
+  if (lbl) lbl.classList.add('show');
+}
+</script>
+</body>
+</html>
