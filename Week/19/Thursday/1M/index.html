@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Writing Task: A Day at the Zoo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;font-weight:700;background:#f5f5f5}
+.slide{position:relative;display:none;width:1280px;height:624px;padding:24px;padding-bottom:72px;overflow:hidden}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+
+/* heading */
+.hdr{font-size:28px;color:#333;font-weight:700;margin-bottom:2vmin}
+
+/* quiz — each blank individually tappable */
+.q{font-size:28px;line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:3px dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
+.blank:hover{border-color:#1976d2}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f;cursor:default}
+
+/* table */
+.tbl-wrap{overflow-x:hidden}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:22px}
+.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
+.tbl-wrap th{background:#e8e8e8;font-weight:600}
+
+/* text slides */
+.tx{font-size:26px;line-height:1.8;max-width:100%}
+
+/* grammar example — icon + highlighted example, center-aligned */
+.gx-wrap{display:flex;flex-direction:column;align-items:center;gap:2vmin}
+.gx-icon{font-size:clamp(32px,8vmin,56px);line-height:1}
+.gx{font-size:clamp(20px,5vmin,36px);line-height:1.6;text-align:center;font-weight:500;max-width:100%}
+.gx b,.gx strong{color:#d32f2f} /* highlight the target grammar */
+
+/* grammar explanation — form & function */
+.ge{font-size:clamp(18px,4vmin,28px);line-height:1.8;max-width:100%}
+.ge b,.ge strong{color:#1976d2}
+
+/* practice demo — prebaked answer shown */
+.pd-wrap{display:flex;flex-direction:column;gap:1vmin}
+.pd-label{font-size:.8em;color:#999;font-style:italic;margin-bottom:0.5vmin}
+.pd{font-size:28px;line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%}
+.pd b,.pd strong{color:#2e7d32} /* answer shown in green */
+
+/* nav — ALWAYS visible, position: absolute */
+.nav{position:absolute;bottom:10px;left:24px;right:24px;display:flex;align-items:center;gap:1vmin}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;font-size:16px;border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn-nav{background:transparent;color:#1976d2;padding:4px 10px;font-weight:600}
+.btn-nav:disabled{color:#bbb;cursor:default}
+.cnt{font-size:14px;color:#999;margin-left:auto}
+
+/* ── Timer ── */
+.timer-wrap{position:absolute;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:8px}
+.timer{font-family:'Inter',sans-serif;font-weight:900;font-size:36px;color:#c79100;background:rgba(0,0,0,0.72);padding:6px 18px;border-radius:12px;line-height:1.2;user-select:none}
+.timer.running{color:#7ecfff}
+.timer.warning{color:#ff6b6b;animation:pulse-warn .8s ease-in-out infinite}
+.timer.done{color:#ff1744;animation:pulse-done .4s ease-in-out infinite}
+@keyframes pulse-warn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes pulse-done{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.timer-btn{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;color:#fff;background:rgba(0,0,0,0.72);border:none;padding:8px 18px;border-radius:10px;cursor:pointer;line-height:1.2}
+.timer-btn:hover{background:rgba(0,0,0,0.82)}
+.timer-btn.replay{background:#c79100;color:#000}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<div class="timer-wrap">
+  <div class="timer" id="timer" onclick="handleTimerTap()">15:00</div>
+  <button class="timer-btn" id="timerBtn" onclick="handleTimerTap()">▶ Start</button>
+</div>
+<div class="hdr">Writing Task: A Day at the Zoo</div>
+<div class="tx">Imagine you're standing in front of your favourite animal enclosure at the zoo. Write a short paragraph (50–60 words) describing the scene.<br><br><b>🟠 Simple Present</b> — state facts (what it eats, where it lives, its colour)<br><b>🟠 Present Continuous</b> — describe what the animal and visitors are <i>doing right now</i></div>
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">1/1</span>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
+function tapBlank(el) { el.textContent = el.dataset.answer; el.classList.add('revealed'); }
+
+// ── Timer ──
+const TOTAL = 15 * 60;
+let remaining = TOTAL;
+let interval = null;
+let running = false;
+let done = false;
+
+const timerEl = document.getElementById('timer');
+const btnEl = document.getElementById('timerBtn');
+
+function fmt(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function playAlarm() {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const t = ctx.currentTime;
+    const beep = (freq, dur, start) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'square';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.4, start);
+      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      o.connect(g).connect(ctx.destination);
+      o.start(start);
+      o.stop(start + dur);
+    };
+    beep(880,  0.3, t);
+    beep(1100, 0.3, t + 0.35);
+    beep(1320, 0.3, t + 0.7);
+    beep(880,  0.5, t + 1.1);
+    beep(1100, 0.5, t + 1.7);
+  } catch(_){}
+}
+
+function render() {
+  if (done) { timerEl.textContent = "TIME'S UP!"; return; }
+  timerEl.textContent = fmt(remaining);
+  timerEl.classList.remove('running','warning','done');
+  if (running) {
+    timerEl.classList.add('running');
+    if (remaining <= 60) timerEl.classList.add('warning');
+  }
+}
+
+function start() {
+  running = true;
+  render();
+  btnEl.style.display = 'none';
+  interval = setInterval(tick, 1000);
+}
+
+function pause() {
+  running = false;
+  clearInterval(interval);
+  interval = null;
+  btnEl.textContent = '▶ Resume';
+  btnEl.style.display = 'inline-flex';
+  btnEl.classList.remove('replay');
+  render();
+}
+
+function reset() {
+  clearInterval(interval);
+  interval = null;
+  running = false;
+  done = false;
+  remaining = TOTAL;
+  btnEl.textContent = '▶ Start';
+  btnEl.style.display = 'inline-flex';
+  btnEl.classList.remove('replay');
+  render();
+}
+
+function tick() {
+  if (remaining <= 0) {
+    clearInterval(interval);
+    interval = null;
+    running = false;
+    done = true;
+    timerEl.classList.remove('running','warning');
+    timerEl.classList.add('done');
+    timerEl.textContent = "TIME'S UP!";
+    btnEl.textContent = '↺ Replay';
+    btnEl.style.display = 'inline-flex';
+    btnEl.classList.add('replay');
+    playAlarm();
+    return;
+  }
+  remaining--;
+  render();
+  if (remaining <= 60) {
+    timerEl.classList.add('warning');
+  }
+}
+
+function handleTimerTap() {
+  if (done) { reset(); return; }
+  if (running) { pause(); } else { start(); }
+}
+</script>
+</body>
+</html>
