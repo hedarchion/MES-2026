@@ -48,6 +48,11 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-weight:700;back
 .pd{font-size:28px;line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%}
 .pd b,.pd strong{color:#2e7d32} /* answer shown in green */
 
+/* timer — top right corner */
+.timer{position:absolute;top:20px;right:24px;font-family:'Inter',sans-serif;font-weight:800;font-size:42px;color:#FFD700;background:rgba(0,0,0,0.5);padding:6px 18px;border-radius:12px;letter-spacing:1px;z-index:10;user-select:none}
+.timer.warning{color:#ff6b6b;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+
 /* nav — ALWAYS visible, position: absolute */
 .nav{position:absolute;bottom:10px;left:24px;right:24px;display:flex;align-items:center;gap:1vmin}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;font-size:16px;border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -61,6 +66,7 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-weight:700;back
 <div class="slide active">
 <div class="hdr">✍️ Writing Task</div>
 <div class="tx">A Day at the Zoo<br><br>Imagine you are standing in front of your favourite animal enclosure at the zoo. Write a short paragraph (50–60 words) describing the scene.<br><br><b style="color:#FFD700">You must use:</b><br>• <span style="color:#4fc3f7">Simple Present Tense</span> — facts (what it eats, where it lives, colour)<br>• <span style="color:#81c784">Present Continuous Tense</span> — what the animal &amp; visitors are doing right now</div>
+<div class="timer" id="timer">20:00</div>
 <div class="nav">
 <button class="btn btn-nav" disabled>← Prev</button>
 <button class="btn btn-nav" disabled>Next →</button>
@@ -73,6 +79,20 @@ const slides = document.querySelectorAll('.slide');
 let current = 0;
 function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
 function tapBlank(el) { el.textContent = el.dataset.answer; el.classList.add('revealed'); }
+
+// 20-minute countdown timer
+(function(){
+  const el = document.getElementById('timer');
+  let total = 20 * 60; // 20 min in seconds
+  function tick() {
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (total <= 60) el.classList.add('warning');
+    if (total > 0) { total--; setTimeout(tick, 1000); }
+  }
+  tick();
+})();
 </script>
 </body>
 </html>
