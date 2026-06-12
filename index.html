@@ -2,31 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
 <title>MES-2026 — Slide Decks</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;padding:24px;max-width:800px;margin:0 auto}
-h1{font-size:clamp(20px,5vmin,28px);margin-bottom:4px;display:flex;align-items:center;gap:10px}
-.sub{color:#666;font-size:14px;margin-bottom:24px}
-.week-group{margin-bottom:12px;border-radius:8px;overflow:hidden}
-.week-summary{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#e8e8e8;cursor:pointer;font-weight:600;font-size:15px;user-select:none}
+
+/* === BASE === */
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;padding:clamp(12px,3vmin,32px);max-width:clamp(360px,85vmin,980px);margin:0 auto;min-height:100dvh}
+
+/* === HEADER === */
+h1{font-size:clamp(18px,4.5vmin,32px);margin-bottom:2px;display:flex;align-items:center;gap:clamp(6px,1.5vmin,14px);flex-wrap:wrap}
+.sub{color:#666;font-size:clamp(12px,2.5vmin,16px);margin-bottom:clamp(12px,3vmin,28px);line-height:1.4}
+
+/* === WEEK GROUP (collapsible) === */
+.week-group{margin-bottom:clamp(6px,1.5vmin,14px);border-radius:clamp(6px,1vmin,10px);overflow:hidden}
+.week-summary{display:flex;align-items:center;gap:clamp(6px,1.2vmin,12px);padding:clamp(8px,2vmin,16px) clamp(10px,2.5vmin,18px);background:#e8e8e8;cursor:pointer;font-weight:600;font-size:clamp(13px,3vmin,20px);user-select:none;-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
 .week-summary:hover{background:#ddd}
-.week-icon{font-size:18px}
-.week-count{margin-left:auto;font-weight:400;color:#777;font-size:13px}
-.week-group[open] .week-summary{border-radius:8px 8px 0 0}
-.deck-list{list-style:none;background:#fff;padding:6px 0}
+.week-summary:active{background:#d0d0d0}
+.week-icon{font-size:clamp(16px,4vmin,26px);line-height:1}
+.week-count{margin-left:auto;font-weight:400;color:#777;font-size:clamp(11px,2.2vmin,15px);white-space:nowrap}
+.week-group[open] .week-summary{border-radius:clamp(6px,1vmin,10px) clamp(6px,1vmin,10px) 0 0}
+
+/* === DECK LIST === */
+.deck-list{list-style:none;background:#fff;padding:clamp(3px,0.8vmin,8px) 0}
 .deck-list li{border-bottom:1px solid #eee}
 .deck-list li:last-child{border-bottom:none}
-.deck-list a{display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;color:#333;transition:background .15s}
+.deck-list a{display:flex;align-items:center;gap:clamp(6px,1.5vmin,14px);padding:clamp(10px,2.5vmin,18px) clamp(10px,2.5vmin,18px);text-decoration:none;color:#333;transition:background .15s;min-height:clamp(44px,8vmin,60px)} /* min 44px for touch */
 .deck-list a:hover{background:#f0f4ff}
-.entry-title{font-size:14px;font-weight:500;flex:1}
-.entry-info{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;background:#e3f2fd;color:#1565c0}
+.deck-list a:active{background:#e3ecf8}
+
+/* === ENTRY ELEMENTS === */
+.entry-title{font-size:clamp(13px,2.8vmin,18px);font-weight:500;flex:1;line-height:1.3;word-break:break-word}
+.entry-info{display:flex;align-items:center;gap:clamp(4px,0.8vmin,8px);flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+
+/* === BADGES === */
+.badge{display:inline-block;padding:clamp(2px,0.5vmin,6px) clamp(6px,1.5vmin,12px);border-radius:clamp(3px,0.6vmin,6px);font-size:clamp(11px,2.2vmin,15px);font-weight:600;background:#e3f2fd;color:#1565c0;white-space:nowrap;line-height:1.3}
 .class-badge{background:#fce4ec;color:#c62828}
-.meta{font-size:12px;color:#999;white-space:nowrap}
-.empty{text-align:center;padding:40px;color:#999}
-footer{margin-top:32px;text-align:center;font-size:12px;color:#bbb}
+.meta{font-size:clamp(10px,2vmin,14px);color:#999;white-space:nowrap}
+
+/* === EMPTY STATE === */
+.empty{text-align:center;padding:clamp(24px,6vmin,60px);color:#999;font-size:clamp(13px,2.8vmin,18px)}
+
+/* === FOOTER === */
+footer{margin-top:clamp(16px,4vmin,40px);text-align:center;font-size:clamp(10px,2vmin,14px);color:#bbb;padding:clamp(8px,2vmin,16px) 0}
+footer a{color:#999;text-decoration:none}
+footer a:hover{color:#666;text-decoration:underline}
+
+/* === RESPONSIVE ADJUSTMENTS === */
+
+/* Mobile portrait: stack entry-info below title */
+@media (orientation: portrait) and (max-width: 480px) {
+  body{padding:10px 12px}
+  .deck-list a{flex-wrap:wrap;gap:4px 8px;padding:10px 8px}
+  .entry-title{width:100%;font-size:14px}
+  .entry-info{width:100%;justify-content:flex-start;gap:4px}
+  .badge{font-size:11px;padding:2px 8px}
+  .meta{font-size:10px}
+}
+
+/* Mobile landscape: compact layout */
+@media (orientation: landscape) and (max-height: 500px) {
+  body{padding:8px 16px}
+  h1{font-size:18px;margin-bottom:2px}
+  .sub{font-size:12px;margin-bottom:8px}
+  .week-summary{padding:6px 10px;font-size:14px}
+  .deck-list a{min-height:38px;padding:6px 10px}
+  .entry-title{font-size:13px}
+  .badge{font-size:10px;padding:1px 6px}
+}
+
+/* Smartboard / large projection: big text, high contrast */
+@media (min-width: 1024px) and (min-height: 600px) {
+  body{max-width:clamp(700px,75vw,1100px);padding:3vmin}
+  h1{font-size:clamp(24px,3.5vmin,40px)}
+  .sub{font-size:clamp(14px,2.2vmin,24px);margin-bottom:3.5vmin}
+  .week-summary{padding:clamp(10px,1.8vmin,22px) clamp(12px,2vmin,28px);font-size:clamp(16px,2.5vmin,28px)}
+  .week-count{font-size:clamp(12px,1.8vmin,22px)}
+  .deck-list a{min-height:clamp(48px,7vmin,72px);padding:clamp(10px,1.8vmin,22px) clamp(12px,2vmin,28px)}
+  .entry-title{font-size:clamp(15px,2.3vmin,26px)}
+  .badge{font-size:clamp(12px,1.8vmin,22px);padding:clamp(3px,0.5vmin,8px) clamp(8px,1.2vmin,16px)}
+  .meta{font-size:clamp(11px,1.6vmin,20px)}
+  footer{font-size:clamp(11px,1.6vmin,20px);margin-top:4vmin}
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body{background:#1a1a1a;color:#e0e0e0}
+  h1{color:#eee}
+  .sub{color:#aaa}
+  .week-summary{background:#333;color:#eee}
+  .week-summary:hover{background:#3a3a3a}
+  .week-summary:active{background:#444}
+  .week-count{color:#999}
+  .deck-list{background:#222}
+  .deck-list li{border-color:#333}
+  .deck-list a{color:#ddd}
+  .deck-list a:hover{background:#2a2a3a}
+  .deck-list a:active{background:#333}
+  .badge{background:#1a3a5c;color:#7ecfff}
+  .class-badge{background:#5c1a2a;color:#ff8a8a}
+  .meta{color:#777}
+  footer{color:#555}
+  footer a{color:#777}
+  footer a:hover{color:#aaa}
+}
 </style>
 </head>
 <body>
