@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1M IT Vocabulary — Week 20 Monday</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6/dist/theme/dracula.css" id="theme">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  .reveal { font-family: 'Inter', sans-serif; font-weight: 700; }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Inter', sans-serif; font-weight: 800; }
+  .reveal .slides section { font-weight: 700; }
+  .reveal .notes { display: none; }
+
+  /* ── Slide 1: Vocab Grid ── */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .vocab-item {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .vocab-item:hover { background: rgba(255,255,255,0.18); transform: scale(1.06); }
+  .vocab-item .word { font-size: 0.85em; margin-bottom: 6px; }
+  .vocab-item .emoji { font-size: 2em; opacity: 0; transition: opacity 0.35s ease; }
+  .vocab-item.revealed { border-color: #50fa7b; background: rgba(80,250,123,0.12); }
+  .vocab-item.revealed .emoji { opacity: 1; }
+  .hint-line { font-size: 0.75em; opacity: 0.6; margin-bottom: 16px; }
+
+  /* ── Slide 2: Sentence Builder ── */
+  .sentence-item {
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .sentence-item:hover { background: rgba(255,255,255,0.12); }
+  .salad-words { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .salad-word {
+    background: #6272a4; color: #f8f8f2; padding: 5px 12px;
+    border-radius: 8px; font-size: 0.85em; font-weight: 600;
+  }
+  .answer-box { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; opacity: 0; margin-top: 0; }
+  .sentence-item.revealed .answer-box { max-height: 80px; opacity: 1; margin-top: 6px; }
+  .answer-text {
+    color: #50fa7b; font-weight: 700; font-size: 1em;
+    padding: 6px 12px; background: rgba(80,250,123,0.08);
+    border-radius: 8px; border-left: 4px solid #50fa7b;
+  }
+
+  /* ── Slide 3: Name Picker + MCQ ── */
+  .picker-section {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px; background: rgba(255,255,255,0.06);
+    padding: 10px 18px; border-radius: 12px;
+  }
+  .pick-btn {
+    background: #ff79c6; color: #282a36; border: none;
+    padding: 10px 22px; font-size: 0.95em; font-weight: 700;
+    border-radius: 10px; cursor: pointer; font-family: inherit;
+    transition: background 0.2s;
+  }
+  .pick-btn:hover { background: #ff92d0; }
+  .pick-btn:active { transform: scale(0.96); }
+  .selected-name {
+    font-size: 1.3em; font-weight: 800; color: #f1fa8c; min-width: 180px;
+  }
+  .mcq-item {
+    background: rgba(255,255,255,0.05); border-radius: 12px;
+    padding: 14px 18px; margin-bottom: 10px;
+  }
+  .mcq-q { font-weight: 700; margin-bottom: 8px; font-size: 1em; }
+  .mcq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .mcq-opt {
+    background: #44475a; color: #f8f8f2; border: none;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    font-size: 0.85em; font-weight: 600; text-align: left;
+    font-family: inherit; transition: all 0.2s;
+  }
+  .mcq-opt:hover { background: #6272a4; }
+  .mcq-opt.correct { background: #50fa7b; color: #282a36; }
+  .mcq-opt.wrong { background: #ff5555; color: #f8f8f2; }
+  .mcq-opt:disabled { cursor: default; opacity: 0.7; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ════════════════════════════════════════ -->
+<!-- SLIDE 1: IT Vocabulary Grid 3×5          -->
+<!-- ════════════════════════════════════════ -->
+<section data-background-color="#282a36">
+  <h2>💻 IT Vocabulary</h2>
+  <p class="hint-line">Tap a word to reveal its emoji</p>
+  <div class="vocab-grid">
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Computer</span><span class="emoji">💻</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Mouse</span><span class="emoji">🖱️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Keyboard</span><span class="emoji">⌨️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Printer</span><span class="emoji">🖨️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Monitor</span><span class="emoji">🖥️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">WiFi</span><span class="emoji">📶</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Tablet</span><span class="emoji">📱</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Headphones</span><span class="emoji">🎧</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Camera</span><span class="emoji">📷</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">USB Drive</span><span class="emoji">💾</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Email</span><span class="emoji">✉️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Website</span><span class="emoji">🌐</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Password</span><span class="emoji">🔑</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Download</span><span class="emoji">⬇️</span>
+    </div>
+    <div class="vocab-item" onclick="toggleVocab(this)">
+      <span class="word">Upload</span><span class="emoji">⬆️</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SLIDE 2: Sentence Builder (Word Salad)   -->
+<!-- ════════════════════════════════════════ -->
+<section data-background-color="#282a36">
+  <h2>🔀 Sentence Builder</h2>
+  <p style="font-size:0.8em;opacity:0.7;margin-bottom:16px">
+    Unscramble the words. <b>Tap</b> to see the correct sentence.
+  </p>
+
+  <div class="sentence-item" onclick="this.classList.toggle('revealed')">
+    <div class="salad-words">
+      <span class="salad-word">send</span>
+      <span class="salad-word">an</span>
+      <span class="salad-word">I</span>
+      <span class="salad-word">email</span>
+      <span class="salad-word">can</span>
+    </div>
+    <div class="answer-box"><div class="answer-text">✅ I can send an email.</div></div>
+  </div>
+
+  <div class="sentence-item" onclick="this.classList.toggle('revealed')">
+    <div class="salad-words">
+      <span class="salad-word">the</span>
+      <span class="salad-word">Please</span>
+      <span class="salad-word">document</span>
+      <span class="salad-word">print</span>
+    </div>
+    <div class="answer-box"><div class="answer-text">✅ Please print the document.</div></div>
+  </div>
+
+  <div class="sentence-item" onclick="this.classList.toggle('revealed')">
+    <div class="salad-words">
+      <span class="salad-word">my</span>
+      <span class="salad-word">forgot</span>
+      <span class="salad-word">password</span>
+      <span class="salad-word">I</span>
+    </div>
+    <div class="answer-box"><div class="answer-text">✅ I forgot my password.</div></div>
+  </div>
+
+  <div class="sentence-item" onclick="this.classList.toggle('revealed')">
+    <div class="salad-words">
+      <span class="salad-word">Use</span>
+      <span class="salad-word">headphones</span>
+      <span class="salad-word">to</span>
+      <span class="salad-word">listen</span>
+      <span class="salad-word">music</span>
+    </div>
+    <div class="answer-box"><div class="answer-text">✅ Use headphones to listen to music.</div></div>
+  </div>
+
+  <div class="sentence-item" onclick="this.classList.toggle('revealed')">
+    <div class="salad-words">
+      <span class="salad-word">Save</span>
+      <span class="salad-word">your</span>
+      <span class="salad-word">USB</span>
+      <span class="salad-word">on</span>
+      <span class="salad-word">files</span>
+      <span class="salad-word">drive</span>
+    </div>
+    <div class="answer-box"><div class="answer-text">✅ Save your files on a USB drive.</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SLIDE 3: MCQs + Name Randomizer          -->
+<!-- ════════════════════════════════════════ -->
+<section data-background-color="#282a36">
+  <h2>🎯 Quick Quiz</h2>
+
+  <!-- Name Picker -->
+  <div class="picker-section">
+    <button class="pick-btn" onclick="pickStudent()">🎲 Pick Student</button>
+    <span class="selected-name" id="studentName">—</span>
+  </div>
+
+  <!-- MCQ 1 -->
+  <div class="mcq-item">
+    <div class="mcq-q">1️⃣ Which device stores data <b>portably</b>?</div>
+    <div class="mcq-opts">
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">⌨️ Keyboard</button>
+      <button class="mcq-opt" data-correct="true"  onclick="checkMCQ(this)">💾 USB Drive</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">🖥️ Monitor</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">🖱️ Mouse</button>
+    </div>
+  </div>
+
+  <!-- MCQ 2 -->
+  <div class="mcq-item">
+    <div class="mcq-q">2️⃣ What do you need to <b>log into</b> a website?</div>
+    <div class="mcq-opts">
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">📶 WiFi</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">📱 Tablet</button>
+      <button class="mcq-opt" data-correct="true"  onclick="checkMCQ(this)">🔑 Password</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">🎧 Headphones</button>
+    </div>
+  </div>
+
+  <!-- MCQ 3 -->
+  <div class="mcq-item">
+    <div class="mcq-q">3️⃣ Which action saves from the <b>internet to your PC</b>?</div>
+    <div class="mcq-opts">
+      <button class="mcq-opt" data-correct="true"  onclick="checkMCQ(this)">⬇️ Download</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">⬆️ Upload</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">✉️ Email</button>
+      <button class="mcq-opt" data-correct="false" onclick="checkMCQ(this)">🌐 Website</button>
+    </div>
+  </div>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6/dist/reveal.js"></script>
+<script>
+// ── Reveal Init ──
+Reveal.initialize({
+  controls: true,
+  progress: true,
+  center: true,
+  hash: true,
+  transition: 'slide',
+  plugins: []
+});
+
+// ── Slide 1: Toggle vocab emoji reveal ──
+function toggleVocab(el) {
+  el.classList.toggle('revealed');
+}
+
+// ── Slide 3: 1M Student List ──
+const students = [
+  "Aayra Faiz Firman", "Afif Irsyaduddin", "Ahmad Harraz",
+  "Auni", "Choye Kai En", "Dhirenassh",
+  "Fatin Aqilah", "Fatin Nurzafirah", "Gan Kok Xian",
+  "Hadwin", "Javis Oh", "Laksmita",
+  "Lavanya", "Lee Kok Sing", "Litthika",
+  "Look Tin Woun", "Muhd Izzat", "Muhd Najmi Mikhael",
+  "Qasrina Puteri Alisha", "Siti Zahirah", "Thanusha Varshinee",
+  "Thomawaty", "Yaazhiniy", "Yaiswanth"
+];
+
+let lastPick = -1;
+
+function pickStudent() {
+  let idx;
+  do {
+    idx = Math.floor(Math.random() * students.length);
+  } while (idx === lastPick && students.length > 1);
+  lastPick = idx;
+  document.getElementById('studentName').textContent = '👉 ' + students[idx];
+}
+
+// ── Slide 3: MCQ checker ──
+function checkMCQ(btn) {
+  const parent = btn.parentElement;
+  const allBtns = parent.querySelectorAll('.mcq-opt');
+  allBtns.forEach(b => { b.disabled = true; });
+
+  if (btn.dataset.correct === 'true') {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    // Highlight the correct answer
+    allBtns.forEach(b => {
+      if (b.dataset.correct === 'true') {
+        b.classList.add('correct');
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>
