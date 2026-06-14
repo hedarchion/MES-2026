@@ -8,26 +8,26 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
-.slide{position:relative;display:none;width:1280px;height:624px;padding:24px;padding-bottom:72px;overflow:hidden}
+.slide{position:relative;display:none;width:1280px;height:631px;padding:5vmin;padding-bottom:72px;overflow:hidden}
 .slide.active{display:flex;flex-direction:column;justify-content:center}
 
 /* heading */
-.hdr{font-size:28px;color:#333;font-weight:600;margin-bottom:2vmin}
+.hdr{font-size:clamp(14px, 1.8vw, 24px);color:#333;font-weight:600;margin-bottom:2vmin}
 
 /* quiz */
-.q{font-size:28px;line-height:1.8;margin-bottom:3vmin}
-.blank{display:inline-block;border-bottom:3px dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
+.q{font-size:clamp(20px, 2.8vw, 38px);line-height:1.8;margin-bottom:3vmin}
+.blank{display:inline-block;border-bottom:3px dashed #333;min-width:200px;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
 .blank:hover{border-color:#1976d2}
 .blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f;cursor:default}
 
 /* table */
 .tbl-wrap{overflow-x:hidden}
-.tbl-wrap table{width:100%;border-collapse:collapse;font-size:22px}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(20px, 2.8vw, 38px)}
 .tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
 .tbl-wrap th{background:#e8e8e8;font-weight:600}
 
 /* text */
-.tx{font-size:26px;line-height:1.8;max-width:100%}
+.tx{font-size:clamp(20px, 2.8vw, 38px);line-height:1.8;max-width:100%}
 
 /* grammar example */
 .gx-wrap{display:flex;flex-direction:column;align-items:center;gap:2vmin}
@@ -42,15 +42,15 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5}
 /* practice demo */
 .pd-wrap{display:flex;flex-direction:column;gap:1vmin}
 .pd-label{font-size:.8em;color:#999;font-style:italic;margin-bottom:0.5vmin}
-.pd{font-size:28px;line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%}
+.pd{font-size:clamp(20px, 2.8vw, 38px);line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%}
 .pd b,.pd strong{color:#2e7d32}
 
 /* nav */
 .nav{position:absolute;bottom:10px;left:24px;right:24px;display:flex;align-items:center;gap:1vmin}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;font-size:16px;border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 28px;font-size:clamp(16px, 2vw, 28px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .btn-nav{background:transparent;color:#1976d2;padding:4px 10px;font-weight:600}
 .btn-nav:disabled{color:#bbb;cursor:default}
-.cnt{font-size:14px;color:#999;margin-left:auto}
+.cnt{font-size:clamp(13px, 1.6vw, 22px);color:#999;margin-left:auto}
 </style>
 </head>
 <body>
