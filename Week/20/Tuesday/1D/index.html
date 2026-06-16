@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sequencing Activity — Boon Beng</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;font-weight:700;background:#f5f5f5}
+.slide{position:relative;display:none;width:1280px;height:624px;padding:24px;padding-bottom:72px;overflow:hidden;overflow-wrap:break-word;word-break:break-word}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+
+/* heading */
+.hdr{font-size:28px;color:#333;font-weight:700;margin-bottom:2vmin;overflow-wrap:break-word}
+
+/* quiz */
+.q{font-size:28px;line-height:1.8;margin-bottom:3vmin;overflow-wrap:break-word}
+.blank{display:inline-block;border-bottom:3px dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
+.blank:hover{border-color:#1976d2}
+.blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f;cursor:default}
+
+/* table */
+.tbl-wrap{overflow-x:hidden}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:22px;font-weight:700}
+.tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
+.tbl-wrap th{background:#e8e8e8;font-weight:700}
+
+/* text */
+.tx{font-size:26px;line-height:1.8;max-width:100%;overflow-wrap:break-word}
+
+/* grammar example */
+.gx-wrap{display:flex;flex-direction:column;align-items:center;gap:2vmin}
+.gx-icon{font-size:clamp(32px,8vmin,56px);line-height:1}
+.gx{font-size:clamp(20px,5vmin,36px);line-height:1.6;text-align:center;font-weight:700;max-width:100%;overflow-wrap:break-word}
+.gx b,.gx strong{color:#d32f2f}
+
+/* grammar explanation */
+.ge{font-size:clamp(18px,4vmin,28px);line-height:1.8;max-width:100%;overflow-wrap:break-word}
+.ge b,.ge strong{color:#1976d2}
+
+/* practice demo */
+.pd-wrap{display:flex;flex-direction:column;gap:1vmin}
+.pd-label{font-size:.8em;color:#999;font-style:italic;margin-bottom:0.5vmin;font-weight:400}
+.pd{font-size:28px;line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%;overflow-wrap:break-word;font-weight:700}
+.pd b,.pd strong{color:#2e7d32}
+
+/* nav — always visible, uniform buttons */
+.nav{position:absolute;bottom:10px;left:24px;right:24px;display:flex;align-items:center;gap:1vmin}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;font-size:16px;border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-weight:700}
+.btn-nav{background:transparent;color:#1976d2;font-weight:700}
+.btn-nav:disabled{color:#bbb;cursor:default}
+.cnt{font-size:14px;color:#999;margin-left:auto;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<div class="hdr">Sequencing Activity — Boon Beng</div>
+<div class="q">Read the story of Boon Beng. Put the following sentences in the correct order by writing the numbers 1 to 6 in the boxes.<br><br><span class="blank" data-answer="4" onclick="tapBlank(this)">___</span> Boon Beng rented a small shop and opened a soup kitchen.<br><span class="blank" data-answer="3" onclick="tapBlank(this)">___</span> He visited local food shops and asked for their leftover food.<br><span class="blank" data-answer="1" onclick="tapBlank(this)">___</span> Boon Beng bought hot buns for a hungry old man by the roadside.<br><span class="blank" data-answer="6" onclick="tapBlank(this)">___</span> More people visited the shop, and volunteers joined to help him.<br><span class="blank" data-answer="2" onclick="tapBlank(this)">___</span> At night, Boon Beng decided he wanted to do more to help people in need.<br><span class="blank" data-answer="5" onclick="tapBlank(this)">___</span> The soup kitchen grew and started serving hot soup and rice.</div>
+<div class="nav">
+<button class="btn btn-nav" disabled>← Prev</button>
+<button class="btn btn-nav" disabled>Next →</button>
+<span class="cnt">1/1</span>
+</div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function go(n) { slides[current].classList.remove('active'); current = n; slides[current].classList.add('active'); }
+function tapBlank(el) { el.textContent = el.dataset.answer; el.classList.add('revealed'); }
+</script>
+</body>
+</html>
