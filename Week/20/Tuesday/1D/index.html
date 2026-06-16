@@ -9,26 +9,26 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{font-family:'Inter',sans-serif;font-weight:700;background:#f5f5f5}
-.slide{position:relative;display:none;width:1280px;height:624px;padding:24px;padding-bottom:72px;overflow:hidden;overflow-wrap:break-word;word-break:break-word}
+.slide{position:relative;display:none;width:100vw;height:100dvh;padding:5vmin;padding-bottom:72px;overflow:hidden;overflow-wrap:break-word;word-break:break-word}
 .slide.active{display:flex;flex-direction:column;justify-content:center}
 
 /* heading */
-.hdr{font-size:28px;color:#333;font-weight:700;margin-bottom:2vmin;overflow-wrap:break-word}
+.hdr{font-size:clamp(12px, 3vmin, 18px);color:#333;font-weight:700;margin-bottom:2vmin;overflow-wrap:break-word}
 
 /* quiz */
-.q{font-size:28px;line-height:1.8;margin-bottom:3vmin;overflow-wrap:break-word}
-.blank{display:inline-block;border-bottom:3px dashed #333;min-width:180px;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
+.q{font-size:clamp(18px, 5.5vmin, 32px);line-height:1.8;margin-bottom:3vmin;overflow-wrap:break-word}
+.blank{display:inline-block;border-bottom:3px dashed #333;min-width:20vmin;text-align:center;padding:0 1vmin;color:transparent;cursor:pointer;transition:color .2s,border-color .2s;touch-action:manipulation;-webkit-tap-highlight-color:rgba(25,118,210,0.15)}
 .blank:hover{border-color:#1976d2}
 .blank.revealed{color:#d32f2f;border-bottom-color:#d32f2f;cursor:default}
 
 /* table */
 .tbl-wrap{overflow-x:hidden}
-.tbl-wrap table{width:100%;border-collapse:collapse;font-size:22px;font-weight:700}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:clamp(18px, 5.5vmin, 32px);font-weight:700}
 .tbl-wrap th,.tbl-wrap td{border:1px solid #bbb;padding:1vmin 2vmin;text-align:left}
 .tbl-wrap th{background:#e8e8e8;font-weight:700}
 
 /* text */
-.tx{font-size:26px;line-height:1.8;max-width:100%;overflow-wrap:break-word}
+.tx{font-size:clamp(18px, 5.5vmin, 32px);line-height:1.8;max-width:100%;overflow-wrap:break-word}
 
 /* grammar example */
 .gx-wrap{display:flex;flex-direction:column;align-items:center;gap:2vmin}
@@ -43,15 +43,15 @@ body{font-family:'Inter',sans-serif;font-weight:700;background:#f5f5f5}
 /* practice demo */
 .pd-wrap{display:flex;flex-direction:column;gap:1vmin}
 .pd-label{font-size:.8em;color:#999;font-style:italic;margin-bottom:0.5vmin;font-weight:400}
-.pd{font-size:28px;line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%;overflow-wrap:break-word;font-weight:700}
+.pd{font-size:clamp(18px, 5.5vmin, 32px);line-height:1.8;padding:2vmin;background:#f0f7ff;border-radius:1.5vmin;max-width:100%;overflow-wrap:break-word;font-weight:700}
 .pd b,.pd strong{color:#2e7d32}
 
 /* nav — always visible, uniform buttons */
 .nav{position:absolute;bottom:10px;left:24px;right:24px;display:flex;align-items:center;gap:1vmin}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;font-size:16px;border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:2vmin 4vmin;font-size:clamp(14px, 4vmin, 22px);border:none;border-radius:1.5vmin;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-weight:700}
 .btn-nav{background:transparent;color:#1976d2;font-weight:700}
 .btn-nav:disabled{color:#bbb;cursor:default}
-.cnt{font-size:14px;color:#999;margin-left:auto;font-weight:700}
+.cnt{font-size:clamp(11px, 3vmin, 16px);color:#999;margin-left:auto;font-weight:700}
 </style>
 </head>
 <body>
