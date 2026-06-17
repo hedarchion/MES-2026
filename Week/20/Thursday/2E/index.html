@@ -86,21 +86,21 @@ body{
 .icon-sm{width:1.1em;height:1.1em}
 
 /* ═══════════════════════════════════════════
-   Flexboard Slide Layout
+   Grid Slide Layout (auto 1fr auto = head, body, foot)
+   Rows are strictly bounded — content cannot overflow
    ═══════════════════════════════════════════ */
 .slide{
   display:none;
-  flex-direction:column;
+  grid-template-rows:auto 1fr auto;
   width:1280px;
   height:624px;
   overflow:hidden;
   background:hsl(var(--background));
 }
-.slide.active{display:flex}
+.slide.active{display:grid}
 
-/* ─── Slide Head ─── */
+/* ─── Slide Head (grid row 1) ─── */
 .slide-head{
-  flex:none;
   display:flex;
   align-items:center;
   gap:8px;
@@ -118,20 +118,22 @@ body{
   color:hsl(var(--card-foreground));
 }
 
-/* ─── Slide Body (flex:1, min-height:0 = safe zone) ─── */
+/* ─── Slide Body (grid row 2, 1fr = fills remaining) ─── */
 .slide-body{
-  flex:1;
-  min-height:0;
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  display:grid;
+  place-items:center;
   padding:20px;
 }
+/* Inner content wrapper for scroll safety */
+.slide-body > :only-child{
+  max-height:100%;
+  overflow:hidden;
+  width:100%;
+}
 
-/* ─── Slide Foot ─── */
+/* ─── Slide Foot (grid row 3) ─── */
 .slide-foot{
-  flex:none;
   display:flex;
   align-items:center;
   padding:10px 20px;
@@ -476,7 +478,7 @@ body{
     <span class="slide-title">How It Works</span>
   </div>
   <div class="slide-body">
-    <div class="quiz">1. <span class="blank" data-answer="Photons / Light" onclick="tapBlank(this)">____</span> from the sun hit the solar panel.<br>2. PV cells absorb the photons and knock <span class="blank" data-answer="electrons" onclick="tapBlank(this)">____</span> loose.<br>3. The movement of electrons creates an <span class="blank" data-answer="electric / direct (DC)" onclick="tapBlank(this)">____</span> current.<br>4. An inverter changes it to <span class="blank" data-answer="alternating (AC)" onclick="tapBlank(this)">____</span> current for home use.</div>
+    <div class="quiz">1. <span class="blank" data-answer="Photons / Light" onclick="tapBlank(this)">____</span> from the sun hit the solar panel.<br>2. PV cells absorb the photons and knock <span class="blank" data-answer="electrons" onclick="tapBlank(this)">____</span> loose.<br>3. The movement of electrons creates an <span class="blank" data-answer="electric / DC" onclick="tapBlank(this)">____</span> current.<br>4. An inverter changes it to <span class="blank" data-answer="alternating / AC" onclick="tapBlank(this)">____</span> current for home use.</div>
   </div>
   <div class="slide-foot">
     <div class="nav-bar">
@@ -491,7 +493,7 @@ body{
     <span class="slide-title">Check Your Understanding</span>
   </div>
   <div class="slide-body">
-    <div class="quiz">1. Solar energy is a <span class="blank" data-answer="renewable" onclick="tapBlank(this)">____</span> energy source because it can be replenished naturally.<br>2. The efficiency of a solar panel <span class="blank" data-answer="decreases / drops" onclick="tapBlank(this)">____</span> when the temperature rises above 25°C.<br>3. Solar panels work best when they are <span class="blank" data-answer="angled / facing / pointed" onclick="tapBlank(this)">____</span> directly at the sun.<br>4. Installing solar panels helps reduce <span class="blank" data-answer="carbon / greenhouse" onclick="tapBlank(this)">____</span> gas emissions.</div>
+    <div class="quiz">1. Solar energy is a <span class="blank" data-answer="renewable" onclick="tapBlank(this)">____</span> energy source.<br>2. Panel efficiency <span class="blank" data-answer="decreases / drops" onclick="tapBlank(this)">____</span> above 25°C.<br>3. Panels work best <span class="blank" data-answer="angled / facing" onclick="tapBlank(this)">____</span> directly at the sun.<br>4. Solar power helps reduce <span class="blank" data-answer="carbon / greenhouse" onclick="tapBlank(this)">____</span> emissions.</div>
   </div>
   <div class="slide-foot">
     <div class="nav-bar">
