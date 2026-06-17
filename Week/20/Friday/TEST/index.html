@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Flexboard Test Deck</title>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<!-- Inter Font -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+</style>
+<style>
+/* ═══════════════════════════════════════════
+   shadcn/ui Design Tokens (HSL)
+   ═══════════════════════════════════════════ */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --success: 142.1 76.2% 36.3%;
+  --success-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 6.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 142.1 70.6% 45.3%;
+    --success-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   Base / Reset
+   ═══════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  font-weight:500;
+  background:hsl(var(--background));
+  color:hsl(var(--foreground));
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+/* ═══════════════════════════════════════════
+   Lucide Icons
+   ═══════════════════════════════════════════ */
+.icon{display:inline-block;width:1em;height:1em;vertical-align:middle;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon-sm{width:1.1em;height:1.1em}
+
+/* ═══════════════════════════════════════════
+   Flexboard Slide Layout
+   ═══════════════════════════════════════════ */
+.slide{
+  display:none;
+  flex-direction:column;
+  width:1280px;
+  height:624px;
+  overflow:hidden;
+  background:hsl(var(--background));
+}
+.slide.active{display:flex}
+
+/* ─── Slide Head ─── */
+.slide-head{
+  flex:none;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  min-height:48px;
+  border-bottom:1px solid hsl(var(--border));
+  background:hsl(var(--card));
+}
+.slide-title{
+  font-size:20px;
+  font-weight:600;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:hsl(var(--card-foreground));
+}
+
+/* ─── Slide Body (flex:1, min-height:0 = safe zone) ─── */
+.slide-body{
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:20px;
+}
+
+/* ─── Slide Foot ─── */
+.slide-foot{
+  flex:none;
+  display:flex;
+  align-items:center;
+  padding:10px 20px;
+  min-height:56px;
+  border-top:1px solid hsl(var(--border));
+  background:hsl(var(--card));
+}
+.nav-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+}
+
+/* ─── Nav Buttons (shadcn/ui ghost variant) ─── */
+.nav-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:8px 16px;
+  border-radius:calc(var(--radius) - 2px);
+  font-size:14px;
+  font-weight:500;
+  border:none;
+  cursor:pointer;
+  transition:all .15s;
+  touch-action:manipulation;
+  background:transparent;
+  color:hsl(var(--primary));
+  line-height:1;
+}
+.nav-btn:hover{background:hsl(var(--accent));color:hsl(var(--accent-foreground))}
+.nav-btn:active{transform:scale(.97)}
+.nav-btn-disabled,
+.nav-btn:disabled{color:hsl(var(--muted-foreground));pointer-events:none;opacity:.5}
+.nav-btn-disabled:active{transform:none}
+
+/* ─── Count ─── */
+.count{
+  margin-left:auto;
+  font-size:13px;
+  font-weight:500;
+  color:hsl(var(--muted-foreground));
+}
+
+/* ═══════════════════════════════════════════
+   Nav Dots (fixed top center)
+   ═══════════════════════════════════════════ */
+.dots{
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:5px;
+  padding:6px 12px;
+  z-index:20;
+  background:hsl(var(--background) / 0.7);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  border-radius:0 0 12px 12px;
+}
+.dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:hsl(var(--muted-foreground) / 0.3);
+  cursor:pointer;
+  transition:all .3s;
+  touch-action:manipulation;
+}
+.dot.active{
+  width:20px;
+  border-radius:3px;
+  background:hsl(var(--primary));
+}
+.dot:hover{background:hsl(var(--primary) / 0.7)}
+
+/* ═══════════════════════════════════════════
+   Components — Quiz
+   ═══════════════════════════════════════════ */
+.quiz{
+  font-size:28px;
+  font-weight:600;
+  line-height:1.8;
+  overflow-wrap:break-word;
+  word-break:break-word;
+  max-height:100%;
+  overflow-y:auto;
+}
+.blank{
+  display:inline-block;
+  border-bottom:3px dashed hsl(var(--muted-foreground) / 0.5);
+  min-width:180px;
+  text-align:center;
+  padding:0 6px;
+  color:transparent;
+  cursor:pointer;
+  transition:color .2s,border-color .2s;
+  touch-action:manipulation;
+  line-height:1.6;
+}
+.blank:active{border-color:hsl(var(--primary))}
+.blank.revealed{
+  color:hsl(var(--destructive));
+  border-bottom-color:hsl(var(--destructive));
+  cursor:default;
+}
+
+/* ═══════════════════════════════════════════
+   Components — Table
+   ═══════════════════════════════════════════ */
+.tbl-wrap{
+  overflow:hidden;
+  max-height:100%;
+}
+.tbl-wrap table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:22px;
+  font-weight:500;
+}
+.tbl-wrap th,.tbl-wrap td{
+  border:1px solid hsl(var(--border));
+  padding:8px 12px;
+  text-align:left;
+}
+.tbl-wrap th{
+  background:hsl(var(--muted));
+  color:hsl(var(--muted-foreground));
+  font-weight:600;
+}
+.tbl-wrap td{
+  color:hsl(var(--foreground));
+}
+
+/* ═══════════════════════════════════════════
+   Components — Text
+   ═══════════════════════════════════════════ */
+.text{
+  font-size:26px;
+  font-weight:500;
+  line-height:1.8;
+  overflow-wrap:break-word;
+  word-break:break-word;
+  max-height:100%;
+  overflow-y:auto;
+}
+
+/* ═══════════════════════════════════════════
+   Components — Grammar Example
+   ═══════════════════════════════════════════ */
+.gx-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  max-height:100%;
+  overflow-y:auto;
+}
+.gx-icon{
+  font-size:clamp(36px, 8vmin, 64px);
+  line-height:1;
+}
+.gx{
+  font-size:clamp(20px, 5vmin, 36px);
+  font-weight:700;
+  line-height:1.6;
+  text-align:center;
+  overflow-wrap:break-word;
+  word-break:break-word;
+}
+.gx b,.gx strong{color:hsl(var(--destructive))}
+
+/* ═══════════════════════════════════════════
+   Components — Grammar Explanation
+   ═══════════════════════════════════════════ */
+.ge{
+  font-size:26px;
+  font-weight:500;
+  line-height:1.8;
+  overflow-wrap:break-word;
+  word-break:break-word;
+  max-height:100%;
+  overflow-y:auto;
+}
+.ge b,.ge strong{color:hsl(var(--primary))}
+
+/* ═══════════════════════════════════════════
+   Components — Practice Demo
+   ═══════════════════════════════════════════ */
+.pd-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-height:100%;
+  overflow-y:auto;
+}
+.pd{
+  font-size:28px;
+  font-weight:600;
+  line-height:1.8;
+  padding:16px;
+  background:hsl(var(--primary) / 0.08);
+  border-radius:var(--radius);
+  overflow-wrap:break-word;
+  word-break:break-word;
+}
+.pd b,.pd strong{color:hsl(var(--success))}
+
+/* ═══════════════════════════════════════════
+   Components — Badge (shadcn/ui style)
+   ═══════════════════════════════════════════ */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 10px;
+  border-radius:var(--radius);
+  font-size:12px;
+  font-weight:500;
+  width:fit-content;
+}
+.badge-practice{
+  background:hsl(var(--secondary));
+  color:hsl(var(--secondary-foreground));
+  border:1px solid hsl(var(--border));
+}
+
+/* ═══════════════════════════════════════════
+   Timer (per-slide-deck countdown)
+   ═══════════════════════════════════════════ */
+.timer-wrap{
+  position:fixed;
+  top:8px;
+  right:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  z-index:25;
+}
+.timer{
+  font-family:'Inter',sans-serif;
+  font-weight:900;
+  font-size:clamp(28px, 5vmin, 44px);
+  letter-spacing:1px;
+  padding:4px 14px;
+  border-radius:var(--radius);
+  background:hsl(var(--background) / 0.75);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  border:1px solid hsl(var(--border));
+  color:#f59e0b;
+  cursor:pointer;
+  transition:color .3s,background .3s;
+}
+.timer.running{color:hsl(var(--primary))}
+.timer.warning{color:#ef4444;animation:timer-pulse .8s infinite}
+.timer.done{color:#dc2626;animation:timer-pulse-fast .4s infinite}
+.timer-btn{
+  padding:6px 12px;
+  border-radius:var(--radius);
+  font-size:13px;
+  font-weight:600;
+  border:1px solid hsl(var(--border));
+  background:hsl(var(--background) / 0.75);
+  backdrop-filter:blur(6px);
+  cursor:pointer;
+  color:hsl(var(--foreground));
+  transition:all .15s;
+  touch-action:manipulation;
+}
+.timer-btn:hover{background:hsl(var(--accent))}
+.timer-btn:active{transform:scale(.95)}
+.timer-btn.replay{
+  background:#f59e0b;
+  color:#000;
+  border-color:#f59e0b;
+}
+@keyframes timer-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes timer-pulse-fast{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ═══════════════════════════════════════════
+   Swipe hint
+   ═══════════════════════════════════════════ */
+.swipe-hint{
+  position:fixed;
+  bottom:72px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:4px;
+  color:hsl(var(--muted-foreground) / 0.3);
+  font-size:11px;
+  font-weight:400;
+  z-index:5;
+  pointer-events:none;
+  animation:swipe-bounce 2s infinite;
+}
+@keyframes swipe-bounce{0%,100%{opacity:.25;transform:translateX(-50%) translateY(0)}50%{opacity:.5;transform:translateX(-50%) translateY(-4px)}}
+</style>
+</head>
+<body>
+
+<div class="dots" id="dots"><span class="dot active" data-i="0" onclick="go(0)"></span><span class="dot" data-i="1" onclick="go(1)"></span><span class="dot" data-i="2" onclick="go(2)"></span><span class="dot" data-i="3" onclick="go(3)"></span><span class="dot" data-i="4" onclick="go(4)"></span><span class="dot" data-i="5" onclick="go(5)"></span><span class="dot" data-i="6" onclick="go(6)"></span></div>
+<div class="slide active">
+  <div class="slide-head">
+    <span class="slide-title">Welcome</span>
+  </div>
+  <div class="slide-body">
+    <div class="text">This is a test of the new Flexboard + shadcn/ui template.<br>It uses <b>Lucide icons</b> and HSL color tokens.</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn nav-btn-disabled" disabled><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">1/7</span>
+      <button class="nav-btn" onclick="go(1)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Fill in</span>
+  </div>
+  <div class="slide-body">
+    <div class="quiz">The cat <span class="blank" data-answer="sat" onclick="tapBlank(this)">____</span> on the mat.</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(0)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">2/7</span>
+      <button class="nav-btn" onclick="go(2)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Reference</span>
+  </div>
+  <div class="slide-body">
+    <div class="tbl-wrap"><table><thead><tr><th>Word</th><th>Meaning</th></tr></thead><tbody><tr><td>cat</td><td>a furry animal</td></tr>
+<tr><td>dog</td><td>a barking animal</td></tr></tbody></table></div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(1)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">3/7</span>
+      <button class="nav-btn" onclick="go(3)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Present Tense</span>
+  </div>
+  <div class="slide-body">
+    <div class="gx-wrap">
+  <span class="gx-icon">🎯</span>
+  <div class="gx">The cat <b>sits</b> on the mat.</div>
+</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(2)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">4/7</span>
+      <button class="nav-btn" onclick="go(4)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Present Tense — How It Works</span>
+  </div>
+  <div class="slide-body">
+    <div class="ge"><b>Form:</b> Subject + verb(s)<br><br><b>Function:</b> General truths and habits.</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(3)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">5/7</span>
+      <button class="nav-btn" onclick="go(5)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Present Tense — Example</span>
+  </div>
+  <div class="slide-body">
+    <div class="pd-wrap">
+  <span class="badge badge-practice">✏️ Model</span>
+  <div class="pd">She <b>walks</b> to school every day.</div>
+</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(4)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">6/7</span>
+      <button class="nav-btn" onclick="go(6)">Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="slide-head">
+    <span class="slide-title">Present Tense — Practice</span>
+  </div>
+  <div class="slide-body">
+    <div class="quiz">They <span class="blank" data-answer="play" onclick="tapBlank(this)">____</span> football on Sundays.</div>
+  </div>
+  <div class="slide-foot">
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="go(5)"><i data-lucide="chevron-left" class="icon icon-sm"></i> Prev</button>
+      <span class="count">7/7</span>
+      <button class="nav-btn nav-btn-disabled" disabled>Next <i data-lucide="chevron-right" class="icon icon-sm"></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="swipe-hint" id="swipeHint">
+  <i data-lucide="chevron-left" class="icon" style="width:12px;height:12px"></i>
+  Swipe
+  <i data-lucide="chevron-right" class="icon" style="width:12px;height:12px"></i>
+</div>
+
+<script>
+// ── Lucide Icon Init ──
+lucide.createIcons();
+
+// ── Slide State ──
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+let current = 0;
+
+// ── Navigation ──
+function go(n) {
+  if (n < 0 || n >= slides.length) return;
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  // Hide swipe hint after first navigation
+  const hint = document.getElementById('swipeHint');
+  if (hint) hint.style.display = 'none';
+}
+
+// ── Touch Swipe ──
+let touchStartX = 0, touchEndX = 0;
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+  touchEndX = touchStartX;
+}, {passive:true});
+document.addEventListener('touchmove', function(e) {
+  touchEndX = e.changedTouches[0].screenX;
+}, {passive:true});
+document.addEventListener('touchend', function(e) {
+  const diff = touchStartX - touchEndX;
+  if (Math.abs(diff) > 40) {
+    if (diff > 0) go(current + 1);
+    else go(current - 1);
+  }
+}, {passive:true});
+
+// ── Keyboard navigation ──
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    go(current + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    go(current - 1);
+  }
+});
+
+// ── Blank Reveal ──
+function tapBlank(el) {
+  if (el.classList.contains('revealed')) return;
+  el.textContent = el.dataset.answer;
+  el.classList.add('revealed');
+}
+
+// ── Timer ──
+(function() {
+  var TOTAL = 20 * 60; // default 20 min, override via global
+  if (window.SLIDE_TIMER_SECONDS) TOTAL = window.SLIDE_TIMER_SECONDS;
+  var remaining = TOTAL, running = false, timerId = null;
+  var wrap = document.querySelector('.timer-wrap');
+  if (!wrap) return;
+  var disp = wrap.querySelector('.timer');
+  var btn = wrap.querySelector('.timer-btn');
+  function fmt(s) {
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  }
+  function render() { disp.textContent = fmt(remaining); }
+  function pulseState() {
+    disp.classList.remove('running','warning','done');
+    if (remaining <= 0) { disp.classList.add('done'); }
+    else if (remaining <= 60) { disp.classList.add('warning'); }
+    else if (running) { disp.classList.add('running'); }
+  }
+  function tick() {
+    if (remaining > 0) remaining--;
+    render();
+    pulseState();
+    if (remaining <= 0) {
+      clearInterval(timerId);
+      timerId = null;
+      running = false;
+      btn.textContent = '↺';
+      btn.className = 'timer-btn replay';
+      playAlarm();
+    }
+  }
+  function start() {
+    if (running) return;
+    if (remaining <= 0) { reset(); return; }
+    running = true;
+    btn.textContent = '⏸';
+    btn.className = 'timer-btn';
+    timerId = setInterval(tick, 1000);
+    pulseState();
+  }
+  function pause() {
+    if (!running) return;
+    clearInterval(timerId);
+    timerId = null;
+    running = false;
+    btn.textContent = '▶';
+    btn.className = 'timer-btn';
+    pulseState();
+  }
+  function reset() {
+    clearInterval(timerId);
+    timerId = null;
+    running = false;
+    remaining = TOTAL;
+    render();
+    btn.textContent = '▶';
+    btn.className = 'timer-btn';
+    pulseState();
+  }
+  function playAlarm() {
+    try {
+      var ctx = new (window.AudioContext||window.webkitAudioContext)();
+      var t = ctx.currentTime;
+      function beep(freq, dur, start) {
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = 'square';
+        o.frequency.value = freq;
+        g.gain.setValueAtTime(0.4, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        o.connect(g).connect(ctx.destination);
+        o.start(start);
+        o.stop(start + dur);
+      }
+      beep(880, 0.3, t);
+      beep(1100, 0.3, t + 0.35);
+      beep(1320, 0.3, t + 0.7);
+      beep(880, 0.5, t + 1.1);
+      beep(1100, 0.5, t + 1.7);
+    } catch(e) {}
+  }
+  disp.addEventListener('click', function() {
+    if (running) pause();
+    else start();
+  });
+  btn.addEventListener('click', function() {
+    if (btn.classList.contains('replay')) reset();
+    else if (running) pause();
+    else start();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
