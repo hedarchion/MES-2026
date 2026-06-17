@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Solar Power - 2E W20 Thu</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+body{font-family:'Inter',sans-serif;overflow:hidden;height:100dvh;width:100vw;background:#0a0a1a;color:#fff;user-select:none;-webkit-user-select:none}
+
+/* ─── MIUI Design Tokens ─── */
+:root{
+  --mi-blue:#0d84ff;
+  --mi-orange:#ff6d00;
+  --mi-teal:#00bfa5;
+  --mi-purple:#7c4dff;
+  --mi-bg:#0a0a1a;
+  --mi-card:#1a1a2e;
+  --mi-card2:#16213e;
+  --mi-radius:20px;
+  --mi-glow:0 0 30px rgba(13,132,255,.15);
+}
+
+/* ─── Slides ─── */
+.slide{
+  position:fixed;inset:0;
+  display:none;
+  flex-direction:column;
+  padding:20px 16px;
+  opacity:0;transition:opacity .4s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;
+}
+.slide.active{display:flex;opacity:1;z-index:2}
+.slide.exit{opacity:0;z-index:1}
+.slide.enter{opacity:1;z-index:2}
+
+/* ─── Slide 1: Three.js canvas ─── */
+#canvas-container{position:absolute;inset:0;z-index:0}
+.slide-1{background:linear-gradient(180deg,#0a0a1a 0%,#1a1a3e 50%,#0a0a1a 100%)}
+.slide-1 .overlay{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:40px}
+.slide-1 .title-text{font-size:clamp(18px,5vw,28px);font-weight:800;background:linear-gradient(135deg,#ff6d00,#ffab00,#0d84ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;margin-bottom:6px}
+.slide-1 .sub-text{font-size:clamp(12px,3.2vw,16px);color:rgba(255,255,255,.6);font-weight:400;line-height:1.5}
+.slide-1 .stats-row{display:flex;gap:10px;margin-top:12px}
+.slide-1 .stat-card{flex:1;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border-radius:14px;padding:10px 12px;border:1px solid rgba(255,255,255,.08)}
+.slide-1 .stat-val{font-size:clamp(14px,4vw,20px);font-weight:700;background:linear-gradient(135deg,#0d84ff,#00bfa5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.slide-1 .stat-lbl{font-size:clamp(9px,2.4vw,12px);color:rgba(255,255,255,.5);font-weight:400;margin-top:2px}
+
+/* ─── Slide 2: Questions + Name Randomizer ─── */
+.slide-2{background:linear-gradient(180deg,#0a0a2e 0%,#1a1a3e 50%,#0a0a2e 100%);padding-top:24px}
+.slide-2 .section-title{font-size:clamp(13px,3.5vw,17px);font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.slide-2 .main-title{font-size:clamp(20px,6vw,30px);font-weight:800;line-height:1.2;margin-bottom:16px;background:linear-gradient(135deg,#0d84ff,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Name randomizer */
+.name-wheel{background:var(--mi-card);border-radius:var(--mi-radius);padding:20px 16px;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);text-align:center;position:relative;overflow:hidden}
+.name-wheel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,132,255,.08),rgba(124,77,255,.08));pointer-events:none}
+.name-display{font-size:clamp(22px,6.5vw,34px);font-weight:800;min-height:clamp(36px,10vw,52px);display:flex;align-items:center;justify-content:center;transition:all .05s;position:relative}
+.name-display.spinning{color:#0d84ff;animation:pulse-text .15s infinite}
+.name-display.selected{background:linear-gradient(135deg,#0d84ff,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.name-display.idle{color:rgba(255,255,255,.35);font-weight:400}
+@keyframes pulse-text{0%,100%{opacity:1}50%{opacity:.4}}
+.roll-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:16px;font-size:clamp(14px,3.8vw,18px);font-weight:600;border:none;cursor:pointer;transition:all .2s;touch-action:manipulation;margin-top:8px}
+.roll-btn.idle{background:linear-gradient(135deg,#0d84ff,#0055cc);color:#fff;box-shadow:0 4px 20px rgba(13,132,255,.3)}
+.roll-btn.idle:active{transform:scale(.95);box-shadow:0 2px 10px rgba(13,132,255,.2)}
+.roll-btn.spinning{background:linear-gradient(135deg,#ff6d00,#ffab00);color:#fff;box-shadow:0 4px 20px rgba(255,109,0,.3)}
+.roll-btn.done{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);cursor:not-allowed}
+
+/* Questions */
+.q-card{background:var(--mi-card2);border-radius:16px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(255,255,255,.06);transition:all .3s}
+.q-card.active{border-color:rgba(13,132,255,.3);box-shadow:0 0 20px rgba(13,132,255,.1)}
+.q-number{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:8px;background:rgba(13,132,255,.2);color:#0d84ff;font-size:12px;font-weight:700;margin-right:8px;flex-shrink:0}
+.q-text{font-size:clamp(14px,3.8vw,18px);font-weight:500;line-height:1.5;display:flex;align-items:flex-start}
+.q-reveal-btn{display:inline-flex;align-items:center;gap:4px;margin-top:8px;margin-left:32px;padding:6px 14px;border-radius:10px;font-size:clamp(11px,3vw,14px);font-weight:500;border:1px solid rgba(0,191,165,.3);background:rgba(0,191,165,.1);color:var(--mi-teal);cursor:pointer;transition:all .2s;touch-action:manipulation}
+.q-reveal-btn:active{transform:scale(.95)}
+.q-answer{font-size:clamp(13px,3.5vw,17px);color:var(--mi-teal);font-weight:600;margin-top:6px;margin-left:32px;opacity:0;max-height:0;overflow:hidden;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.q-answer.show{opacity:1;max-height:200px;margin-top:6px}
+
+/* ─── Nav ─── */
+.nav{position:fixed;bottom:16px;left:16px;right:16px;display:flex;align-items:center;gap:12px;z-index:10}
+.nav-btn{flex:1;padding:14px;border-radius:16px;font-size:clamp(14px,3.8vw,18px);font-weight:600;border:none;cursor:pointer;transition:all .2s;touch-action:manipulation}
+.nav-btn.prev{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.nav-btn.prev:active{background:rgba(255,255,255,.15);transform:scale(.97)}
+.nav-btn.next{background:linear-gradient(135deg,#0d84ff,#0055cc);color:#fff;box-shadow:0 4px 20px rgba(13,132,255,.3)}
+.nav-btn.next:active{transform:scale(.97)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn:disabled:active{transform:none}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
+.nav-dot.active{width:18px;border-radius:3px;background:#0d84ff}
+.nav-dots{display:flex;gap:5px;align-items:center;position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10}
+
+/* ─── MIUI swipe hint ─── */
+.swipe-hint{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.25);font-size:11px;font-weight:400;animation:swipe-bounce 2s infinite}
+@keyframes swipe-bounce{0%,100%{opacity:.25;transform:translateX(-50%) translateY(0)}50%{opacity:.5;transform:translateX(-50%) translateY(-4px)}}
+</style>
+</head>
+<body>
+
+<!-- Dots -->
+<div class="nav-dots">
+  <div class="nav-dot active" id="dot0"></div>
+  <div class="nav-dot" id="dot1"></div>
+</div>
+
+<!-- ════════ SLIDE 1: 3D Solar Visualization ════════ -->
+<div class="slide slide-1 active" id="slide0">
+  <div id="canvas-container"></div>
+  <div class="overlay">
+    <div class="title-text">☀️ From Sun to Socket</div>
+    <div class="sub-text">How solar panels turn sunlight<br>into electricity, in 3D</div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val">600+</div>
+        <div class="stat-lbl">GW installed worldwide</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">173k</div>
+        <div class="stat-lbl">TW hits Earth from sun</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">25+ yrs</div>
+        <div class="stat-lbl">Panel lifespan</div>
+      </div>
+    </div>
+  </div>
+  <div class="swipe-hint">← Swipe →</div>
+</div>
+
+<!-- ════════ SLIDE 2: Questions + Name Pick ════════ -->
+<div class="slide slide-2" id="slide1">
+  <div style="flex:1;display:flex;flex-direction:column;overflow-y:auto;padding-bottom:80px;gap:0">
+
+    <div class="section-title">⚡ Quick Quiz</div>
+    <div class="main-title">Name Randomizer</div>
+
+    <!-- Name picker -->
+    <div class="name-wheel">
+      <div class="name-display idle" id="nameDisplay">Tap to pick a name</div>
+      <button class="roll-btn idle" id="rollBtn" onclick="pickName()">
+        <span id="rollIcon">🎲</span>
+        <span id="rollLabel">Pick Random Name</span>
+      </button>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="q-card" id="q1">
+      <div class="q-text">
+        <span class="q-number">1</span>
+        <span>How is sunlight converted into electrical energy in a solar panel?</span>
+      </div>
+      <button class="q-reveal-btn" onclick="toggleAnswer('a1')">🔍 Show Answer</button>
+      <div class="q-answer" id="a1">Photovoltaic (PV) cells absorb photons from sunlight, knocking electrons loose and creating an electric current — this is called the <b>photovoltaic effect</b>.</div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="q-card" id="q2">
+      <div class="q-text">
+        <span class="q-number">2</span>
+        <span>Name TWO factors that affect how much electricity a solar panel can produce.</span>
+      </div>
+      <button class="q-reveal-btn" onclick="toggleAnswer('a2')">🔍 Show Answer</button>
+      <div class="q-answer" id="a2"><b>1.</b> Light intensity / amount of sunlight<br><b>2.</b> Temperature (panels lose efficiency above 25°C)<br><b>3.</b> Angle of panels toward the sun<br><b>4.</b> Shading or cleanliness of panels</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ NAV ════════ -->
+<div class="nav" id="nav">
+  <button class="nav-btn prev" id="prevBtn" disabled>← Back</button>
+  <button class="nav-btn next" id="nextBtn" onclick="nextSlide()">Quiz →</button>
+</div>
+
+<script>
+// ─── Slide Navigation ───
+let currentSlide = 0;
+const totalSlides = 2;
+
+function goToSlide(n) {
+  if (n < 0 || n >= totalSlides) return;
+  document.querySelectorAll('.slide')[currentSlide].classList.remove('active');
+  document.querySelectorAll('.slide')[n].classList.add('active');
+  currentSlide = n;
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').textContent = n === totalSlides - 1 ? '✓ Done' : 'Quiz →';
+  document.querySelectorAll('.nav-dot').forEach((d,i) => {
+    d.classList.toggle('active', i === n);
+  });
+}
+
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
+
+document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+// ─── Touch Swipe ───
+let touchStartX = 0, touchEndX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  const diff = touchStartX - touchEndX;
+  if (Math.abs(diff) > 40) {
+    if (diff > 0) nextSlide();
+    else prevSlide();
+  }
+}, {passive:true});
+
+// ─── Answer Reveal ───
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  const btn = el.previousElementSibling;
+  const isShowing = el.classList.contains('show');
+  if (isShowing) {
+    el.classList.remove('show');
+    btn.innerHTML = '🔍 Show Answer';
+  } else {
+    el.classList.add('show');
+    btn.innerHTML = '🙈 Hide Answer';
+  }
+}
+
+// ─── Name Randomizer ───
+const students = [
+  "Ahmad Amsyar", "Aliff Fahmii", "Aqilah Hasnaa", "Areej Az Zahra",
+  "Azwa Shahirah", "Devesh", "Fawwaz Zahirul", "Hani Raihannah",
+  "Khaisara Irdina", "Leong Kah Kin", "Lohsheny", "Mithish Raj",
+  "Muhd Aiman Iskandar", "Muhd Yusuf Imran", "Muzamin Irfan Syah",
+  "Natalie Tan", "Ng Min Hyn", "Nor Shameera",
+  "Nur Ain Fariesya", "Nur Aliya Fatihah", "Nur Damia Qistina",
+  "Nur Dhiya Nellisa", "Nur Kamilia", "Nur Rasyiqah Zahra",
+  "Nurkhailshah Azzahra", "Nurul Syamilla Amani", "Nurul Syamilla Ammni",
+  "Santosh Rau", "Song Zi Huei"
+];
+let isRolling = false;
+let rollTimer = null;
+let pickResult = null;
+
+function pickName() {
+  if (isRolling) return;
+  const display = document.getElementById('nameDisplay');
+  const btn = document.getElementById('rollBtn');
+  const icon = document.getElementById('rollIcon');
+  const label = document.getElementById('rollLabel');
+
+  isRolling = true;
+  btn.className = 'roll-btn spinning';
+  btn.disabled = true;
+  icon.textContent = '⏳';
+  label.textContent = 'Picking...';
+  display.className = 'name-display spinning';
+
+  // Rapid shuffle
+  let shuffleCount = 0;
+  const maxShuffles = 20 + Math.floor(Math.random() * 10);
+  rollTimer = setInterval(() => {
+    display.textContent = students[Math.floor(Math.random() * students.length)];
+    shuffleCount++;
+    if (shuffleCount >= maxShuffles) {
+      clearInterval(rollTimer);
+      const result = students[Math.floor(Math.random() * students.length)];
+      display.textContent = result;
+      display.className = 'name-display selected';
+      btn.className = 'roll-btn done';
+      btn.disabled = true;
+      icon.textContent = '✅';
+      label.textContent = 'Answering...';
+      isRolling = false;
+      pickResult = result;
+      // Vibrate on mobile
+      if (navigator.vibrate) navigator.vibrate(50);
+    }
+  }, 50 + shuffleCount * 3);
+}
+
+// ─── Three.js 3D Scene ───
+(function() {
+  const container = document.getElementById('canvas-container');
+  const slide0 = document.getElementById('slide0');
+
+  // Wait for slide to be visible to init
+  const observer = new MutationObserver(() => {
+    if (slide0.classList.contains('active') && !window._threeInit) {
+      window._threeInit = true;
+      initThree();
+      observer.disconnect();
+    }
+  });
+  observer.observe(slide0, { attributes: true, attributeFilter: ['class'] });
+
+  // Also init immediately if already active
+  if (slide0.classList.contains('active')) {
+    window._threeInit = true;
+    initThree();
+    observer.disconnect();
+  }
+
+  function initThree() {
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const aspect = width / height;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // ─── Sun ───
+    const sunGeo = new THREE.SphereGeometry(1.2, 32, 32);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xff6d00 });
+    const sun = new THREE.Mesh(sunGeo, sunMat);
+    sun.position.set(-3, 1, -5);
+    scene.add(sun);
+
+    // Sun glow
+    const glowGeo = new THREE.SphereGeometry(1.5, 32, 32);
+    const glowMat = new THREE.MeshBasicMaterial({
+      color: 0xffab00,
+      transparent: true,
+      opacity: 0.3
+    });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.copy(sun.position);
+    scene.add(glow);
+
+    // Sun inner glow
+    const innerGlowGeo = new THREE.SphereGeometry(1.35, 32, 32);
+    const innerGlowMat = new THREE.MeshBasicMaterial({
+      color: 0xff8f00,
+      transparent: true,
+      opacity: 0.2
+    });
+    const innerGlow = new THREE.Mesh(innerGlowGeo, innerGlowMat);
+    innerGlow.position.copy(sun.position);
+    scene.add(innerGlow);
+
+    // Sun rays (particles)
+    const rayCount = 80;
+    const rayGeo = new THREE.BufferGeometry();
+    const rayPos = new Float32Array(rayCount * 3);
+    const raySizes = new Float32Array(rayCount);
+    const rayColors = new Float32Array(rayCount * 3);
+    for (let i = 0; i < rayCount; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.random() * Math.PI;
+      const r = 1.6 + Math.random() * 3;
+      rayPos[i*3] = -3 + r * Math.sin(phi) * Math.cos(theta);
+      rayPos[i*3+1] = 1 + r * Math.cos(phi);
+      rayPos[i*3+2] = -5 + r * Math.sin(phi) * Math.sin(theta);
+      raySizes[i] = 0.05 + Math.random() * 0.15;
+      rayColors[i*3] = 1;
+      rayColors[i*3+1] = 0.6 + Math.random() * 0.4;
+      rayColors[i*3+2] = 0 + Math.random() * 0.3;
+    }
+    rayGeo.setAttribute('position', new THREE.BufferAttribute(rayPos, 3));
+    rayGeo.setAttribute('size', new THREE.BufferAttribute(raySizes, 1));
+    rayGeo.setAttribute('color', new THREE.BufferAttribute(rayColors, 3));
+    const rayMat = new THREE.PointsMaterial({
+      size: 0.12,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending
+    });
+    const rays = new THREE.Points(rayGeo, rayMat);
+    scene.add(rays);
+
+    // ─── Solar Panel (main) ───
+    const panelGroup = new THREE.Group();
+    panelGroup.position.set(2.5, 0.5, -4);
+
+    // Panel base
+    const baseGeo = new THREE.BoxGeometry(2.2, 0.08, 1.2);
+    const baseMat = new THREE.MeshStandardMaterial({
+      color: 0x1a237e,
+      roughness: 0.5,
+      metalness: 0.3
+    });
+    const base = new THREE.Mesh(baseGeo, baseMat);
+    panelGroup.add(base);
+
+    // Solar cells (grid)
+    const cellMat = new THREE.MeshStandardMaterial({
+      color: 0x0d47a1,
+      roughness: 0.3,
+      metalness: 0.6
+    });
+    const cells = [
+      [-0.85, 0.06, -0.35], [-0.85, 0.06, 0.35],
+      [-0.25, 0.06, -0.35], [-0.25, 0.06, 0.35],
+      [0.35, 0.06, -0.35], [0.35, 0.06, 0.35],
+      [0.95, 0.06, -0.35], [0.95, 0.06, 0.35]
+    ];
+    cells.forEach(pos => {
+      const cell = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.03, 0.45), cellMat);
+      cell.position.set(pos[0], pos[1], pos[2]);
+      panelGroup.add(cell);
+    });
+
+    // Grid lines (silver strips between cells)
+    const lineMat = new THREE.MeshStandardMaterial({
+      color: 0xb0bec5,
+      roughness: 0.4,
+      metalness: 0.8
+    });
+    // Horizontal lines
+    [-0.6, -0.05, 0.5, 1.1].forEach(x => {
+      const line = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.04, 1.05), lineMat);
+      line.position.set(x, 0.06, 0);
+      panelGroup.add(line);
+    });
+    // Vertical lines
+    [-0.6, 0, 0.6].forEach(z => {
+      const line = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.04, 0.02), lineMat);
+      line.position.set(0.05, 0.06, z);
+      panelGroup.add(line);
+    });
+
+    // Panel frame
+    const frameMat = new THREE.MeshStandardMaterial({
+      color: 0x455a64,
+      roughness: 0.6,
+      metalness: 0.4
+    });
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 1.35), frameMat);
+    frame.position.y = 0;
+    panelGroup.add(frame);
+
+    // Glass top
+    const glassMat = new THREE.MeshPhongMaterial({
+      color: 0x4fc3f7,
+      transparent: true,
+      opacity: 0.15,
+      shininess: 100
+    });
+    const glass = new THREE.Mesh(new THREE.BoxGeometry(2.25, 0.02, 1.22), glassMat);
+    glass.position.y = 0.08;
+    panelGroup.add(glass);
+
+    // Blue glow from panel
+    const glowPanelMat = new THREE.MeshBasicMaterial({
+      color: 0x0d84ff,
+      transparent: true,
+      opacity: 0.1,
+      side: THREE.DoubleSide
+    });
+    const glowPanel = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.5), glowPanelMat);
+    glowPanel.position.set(0, 0, 0);
+    panelGroup.add(glowPanel);
+
+    scene.add(panelGroup);
+
+    // ─── Second panel (slightly smaller, tilted) ───
+    const panelGroup2 = panelGroup.clone();
+    panelGroup2.position.set(0, -0.8, -2);
+    panelGroup2.scale.set(0.7, 0.7, 0.7);
+    panelGroup2.rotation.x = -0.3;
+    panelGroup2.rotation.z = 0.15;
+    scene.add(panelGroup2);
+
+    // ─── Energy particles flowing from sun to panel ───
+    const particleCount = 60;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePos = new Float32Array(particleCount * 3);
+    const particleTarget = new Float32Array(particleCount * 3);
+    const particleProgress = new Float32Array(particleCount);
+    const particleSpeeds = new Float32Array(particleCount);
+    for (let i = 0; i < particleCount; i++) {
+      particlePos[i*3] = -3 + (Math.random() - 0.5) * 0.5;
+      particlePos[i*3+1] = 1 + (Math.random() - 0.5) * 0.5;
+      particlePos[i*3+2] = -5 + (Math.random() - 0.5) * 0.5;
+      // Target: panel face area
+      particleTarget[i*3] = 1.5 + (Math.random() - 0.5) * 1.5;
+      particleTarget[i*3+1] = 0.5 + (Math.random() - 0.5) * 0.5;
+      particleTarget[i*3+2] = -4 + (Math.random() - 0.5) * 0.8;
+      particleProgress[i] = Math.random();
+      particleSpeeds[i] = 0.005 + Math.random() * 0.01;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+    const pMat = new THREE.PointsMaterial({
+      color: 0xffab00,
+      size: 0.08,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending
+    });
+    const particles = new THREE.Points(particleGeo, pMat);
+    scene.add(particles);
+
+    // ─── Ambient Lighting ───
+    const ambient = new THREE.AmbientLight(0x404060, 0.3);
+    scene.add(ambient);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(2, 5, 3);
+    scene.add(dirLight);
+    const sunLight = new THREE.PointLight(0xff6d00, 1.5, 10);
+    sunLight.position.copy(sun.position);
+    scene.add(sunLight);
+
+    // ─── Ground grid ───
+    const gridHelper = new THREE.GridHelper(8, 12, 0x0d84ff, 0x1a237e);
+    gridHelper.position.y = -0.6;
+    gridHelper.material.transparent = true;
+    gridHelper.material.opacity = 0.2;
+    scene.add(gridHelper);
+
+    camera.position.set(0, 0.8, 3.5);
+    camera.lookAt(0, 0, -3);
+    camera.position.z = 4;
+
+    // ─── Animation ───
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.01;
+
+      // Pulsing sun
+      const pulse = 1 + Math.sin(time * 2) * 0.03;
+      sun.scale.set(pulse, pulse, pulse);
+      glow.scale.set(pulse * 1.1, pulse * 1.1, pulse * 1.1);
+      innerGlow.scale.set(pulse * 1.05, pulse * 1.05, pulse * 1.05);
+
+      // Rotating rays
+      rays.rotation.y += 0.002;
+      rays.rotation.x += 0.0005;
+
+      // Panel gentle rotation
+      panelGroup.rotation.y = Math.sin(time * 0.3) * 0.1;
+      panelGroup2.rotation.y = Math.sin(time * 0.3 + 1) * 0.12;
+
+      // Energy particles flowing
+      const pos = particles.geometry.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        particleProgress[i] += particleSpeeds[i];
+        if (particleProgress[i] > 1) {
+          particleProgress[i] = 0;
+          // Reset to near sun
+          pos[i*3] = -3 + (Math.random() - 0.5) * 1;
+          pos[i*3+1] = 0.5 + Math.random() * 1.5;
+          pos[i*3+2] = -5 + (Math.random() - 0.5) * 1;
+        }
+        const t = particleProgress[i];
+        // Ease in-out cubic
+        const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+        // Start from sun position
+        const sx = -3 + (Math.random() - 0.5) * 0.5;
+        const sy = 1 + (Math.random() - 0.5) * 0.5;
+        const sz = -5 + (Math.random() - 0.5) * 0.5;
+        pos[i*3] = sx + (particleTarget[i*3] - sx) * ease;
+        pos[i*3+1] = sy + (particleTarget[i*3+1] - sy) * ease;
+        pos[i*3+2] = sz + (particleTarget[i*3+2] - sz) * ease;
+      }
+      particles.geometry.attributes.position.needsUpdate = true;
+
+      // Fade color as they travel
+      // (handled by the color in the material — we'll keep it consistent)
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // ─── Resize ───
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+  }
+})();
+</script>
+</body>
+</html>
